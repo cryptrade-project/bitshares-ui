@@ -2167,5 +2167,13 @@
             "finalNumber": "Actual amount ：%(final_number)s",
             "winAmount": "Minimum amount: %(min_amount)s %(asset)s"
         }
+    },
+    "cryptrade": {
+        "account": {
+            "intro_text_title": "Welcome to Cryptrade"
+        },
+        "footer": {
+            "title": "Cryptrade Decentralized Exchange"
+        }
     }
 }

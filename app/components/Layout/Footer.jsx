@@ -463,7 +463,7 @@ class Footer extends React.Component {
                                 )}
                                 <span style={updateStyles}>
                                     <Translate
-                                        content="footer.title"
+                                        content="cryptrade.footer.title"
                                         wallet_name={getWalletName()}
                                     />
                                     {__GIT_BRANCH__ === "staging" ? (
