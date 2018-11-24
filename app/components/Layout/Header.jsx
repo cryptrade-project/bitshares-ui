@@ -1130,7 +1130,7 @@ class Header extends React.Component {
                         >
                             <Icon
                                 className="lock-unlock"
-                                size="2x"
+                                size="1_5x"
                                 name={this.props.locked ? "locked" : "unlocked"}
                                 title={
                                     this.props.locked
