@@ -331,8 +331,14 @@ class Header extends React.Component {
             starredAccounts,
             passwordLogin,
             passwordAccount,
-            height
+            height,
+            settings
         } = this.props;
+
+        const showAdvancedFeatures = settings.get(
+            "showAdvancedFeatures",
+            false
+        );
 
         let tradingAccounts = AccountStore.getMyAccounts();
         let maxHeight = Math.max(40, height - 67 - 36) + "px";
@@ -1021,41 +1027,43 @@ class Header extends React.Component {
                                     />
                                 </a>
                             </li>
-                            <li>
-                                <a
-                                    style={{flexFlow: "row"}}
-                                    className={cnames(
-                                        active.indexOf("explorer") !== -1
-                                            ? null
-                                            : "column-hide-xs",
-                                        {
-                                            active:
-                                                active.indexOf("explorer") !==
-                                                -1
-                                        }
-                                    )}
-                                    onClick={this._onNavigate.bind(
-                                        this,
-                                        "/explorer/blocks"
-                                    )}
-                                >
-                                    <Icon
-                                        size="2x"
-                                        style={{
-                                            position: "relative",
-                                            top: 0,
-                                            left: -8
-                                        }}
-                                        name="server"
-                                        title="icons.server"
-                                    />
-                                    <Translate
-                                        className="column-hide-small"
-                                        component="span"
-                                        content="header.explorer"
-                                    />
-                                </a>
-                            </li>
+                            {showAdvancedFeatures || active.indexOf("explorer") !== -1 ? (
+                                <li>
+                                    <a
+                                        style={{flexFlow: "row"}}
+                                        className={cnames(
+                                            active.indexOf("explorer") !== -1
+                                                ? null
+                                                : "column-hide-xs",
+                                            {
+                                                active:
+                                                    active.indexOf("explorer") !==
+                                                    -1
+                                            }
+                                        )}
+                                        onClick={this._onNavigate.bind(
+                                            this,
+                                            "/explorer/blocks"
+                                        )}
+                                    >
+                                        <Icon
+                                            size="2x"
+                                            style={{
+                                                position: "relative",
+                                                top: 0,
+                                                left: -8
+                                            }}
+                                            name="server"
+                                            title="icons.server"
+                                        />
+                                        <Translate
+                                            className="column-hide-small"
+                                            component="span"
+                                            content="header.explorer"
+                                        />
+                                    </a>
+                                </li>
+                            ) : null}
                             {/* Dynamic Menu Item */}
                             <li>{dynamicMenuItem}</li>
                         </ul>
@@ -1171,6 +1179,7 @@ class Header extends React.Component {
                                 showDeposit={this._showDeposit.bind(this)}
                                 showWithdraw={this._showWithdraw.bind(this)}
                                 showSend={this._showSend.bind(this)}
+                                showAdvancedFeatures={showAdvancedFeatures}
                                 toggleDropdownSubmenu={this._toggleDropdownSubmenu.bind(
                                     this,
                                     SUBMENUS.SETTINGS

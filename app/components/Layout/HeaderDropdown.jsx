@@ -35,7 +35,8 @@ export default class DropDownMenu extends React.Component {
             tradeUrl,
             enableDepositWithdraw,
             currentAccount,
-            contacts
+            contacts,
+            showAdvancedFeatures
         } = this.props;
 
         let isContact = contacts.has(currentAccount);
@@ -357,7 +358,8 @@ export default class DropDownMenu extends React.Component {
                 <li
                     className={cnames({
                         active: active.indexOf("/voting") !== -1,
-                        disabled: !showAccountLinks
+                        disabled: !showAccountLinks,
+                        hide: !showAdvancedFeatures
                     })}
                     onClick={this.props.onNavigate.bind(
                         this,
@@ -381,7 +383,8 @@ export default class DropDownMenu extends React.Component {
                         active:
                             active.indexOf("/assets") !== -1 &&
                             active.indexOf("/account/") !== -1,
-                        disabled: !showAccountLinks
+                        disabled: !showAccountLinks,
+                        hide: !showAdvancedFeatures
                     })}
                     onClick={this.props.onNavigate.bind(
                         this,
@@ -399,7 +402,8 @@ export default class DropDownMenu extends React.Component {
                 <li
                     className={cnames({
                         active: active.indexOf("/signedmessages") !== -1,
-                        disabled: !showAccountLinks
+                        disabled: !showAccountLinks,
+                        hide: !showAdvancedFeatures
                     })}
                     onClick={this.props.onNavigate.bind(
                         this,
@@ -421,7 +425,8 @@ export default class DropDownMenu extends React.Component {
                 <li
                     className={cnames({
                         active: active.indexOf("/member-stats") !== -1,
-                        disabled: !showAccountLinks
+                        disabled: !showAccountLinks,
+                        hide: !showAdvancedFeatures
                     })}
                     onClick={this.props.onNavigate.bind(
                         this,
@@ -443,7 +448,8 @@ export default class DropDownMenu extends React.Component {
                 {isMyAccount ? (
                     <li
                         className={cnames({
-                            active: active.indexOf("/vesting") !== -1
+                            active: active.indexOf("/vesting") !== -1,
+                            hide: !showAdvancedFeatures
                         })}
                         onClick={this.props.onNavigate.bind(
                             this,
@@ -466,7 +472,8 @@ export default class DropDownMenu extends React.Component {
                 <li
                     className={cnames({
                         active: active.indexOf("/whitelist") !== -1,
-                        disabled: !showAccountLinks
+                        disabled: !showAccountLinks,
+                        hide: !showAdvancedFeatures
                     })}
                     onClick={this.props.onNavigate.bind(
                         this,
@@ -484,7 +491,8 @@ export default class DropDownMenu extends React.Component {
                 <li
                     className={cnames("divider", {
                         active: active.indexOf("/permissions") !== -1,
-                        disabled: !showAccountLinks
+                        disabled: !showAccountLinks,
+                        hide: !showAdvancedFeatures
                     })}
                     onClick={this.props.onNavigate.bind(
                         this,
@@ -503,7 +511,8 @@ export default class DropDownMenu extends React.Component {
                     <li
                         className={cnames(
                             {
-                                active: active.indexOf("/accounts") !== -1
+                                active: active.indexOf("/accounts") !== -1,
+                                hide: !showAdvancedFeatures
                             },
                             "divider"
                         )}
