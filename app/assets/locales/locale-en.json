@@ -1639,6 +1639,7 @@
         "right": "Right",
         "scrollbars_hide": "Reduce scroll bars",
         "show": "Show",
+        "showAdvancedFeatures": "Show advanced features",
         "showAssetPercent": "Show asset percentages on the account page",
         "showSettles": "Show settle orders in depth chart",
         "skipped": "Skipped",
