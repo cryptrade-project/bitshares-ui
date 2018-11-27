@@ -5,6 +5,8 @@ import ChainTypes from "./ChainTypes";
 import utils from "common/utils";
 import {getDisplayName} from "common/reactUtils";
 import LoadingIndicator from "../LoadingIndicator";
+import AccountActions from "../../actions/AccountActions";
+import WalletUnlockActions from "../../actions/WalletUnlockActions";
 
 /**
  * @brief provides automatic fetching and updating of chain data
@@ -205,6 +207,30 @@ function BindToChainState(Component, options = {}) {
 
         componentWillUnmount() {
             ChainStore.unsubscribe(this.update);
+        }
+
+        componentDidMount() {
+            for (let prop of this.required_props) {
+                if (this.state[prop] === undefined) {
+                    if (
+                        typeof options !== "undefined" &&
+                        options.auth_required
+                    ) {
+                        WalletUnlockActions.unlock()
+                            .then(() => {
+                                AccountActions.tryToSetCurrentAccount();
+                            })
+                            .catch(() => {
+                                if (
+                                    options.auth_required_redirect_home &&
+                                    this.props.router
+                                ) {
+                                    this.props.router.push("/");
+                                }
+                            });
+                    }
+                }
+            }
         }
 
         componentWillReceiveProps(next_props) {
@@ -589,6 +615,11 @@ function BindToChainState(Component, options = {}) {
                 if (this.state[prop] === undefined) {
                     if (typeof options !== "undefined" && options.show_loader) {
                         return <LoadingIndicator />;
+                    } else if (
+                        typeof options !== "undefined" &&
+                        options.auth_required
+                    ) {
+                        return <span />;
                     } else {
                         // returning a temp component of the desired type prevents invariant violation errors, notably when rendering tr components
                         // to use, specicy a defaultProps field of tempComponent: "tr" (or "div", "td", etc as desired)
