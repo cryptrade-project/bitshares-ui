@@ -530,28 +530,6 @@ class Header extends React.Component {
                 </a>
             );
         }
-        if (active.indexOf("deposit-withdraw") !== -1) {
-            dynamicMenuItem = (
-                <a
-                    style={{flexFlow: "row"}}
-                    className={cnames({
-                        active: active.indexOf("deposit-withdraw") !== -1
-                    })}
-                >
-                    <Icon
-                        size="1_5x"
-                        style={{position: "relative", top: 0, left: -8}}
-                        name="deposit"
-                        title="icons.deposit.deposit_withdraw"
-                    />
-                    <Translate
-                        className="column-hide-small"
-                        component="span"
-                        content="header.deposit-withdraw"
-                    />
-                </a>
-            );
-        }
         if (active.indexOf("news") !== -1) {
             dynamicMenuItem = (
                 <a
@@ -1027,7 +1005,8 @@ class Header extends React.Component {
                                     />
                                 </a>
                             </li>
-                            {showAdvancedFeatures || active.indexOf("explorer") !== -1 ? (
+                            {showAdvancedFeatures ||
+                            active.indexOf("explorer") !== -1 ? (
                                 <li>
                                     <a
                                         style={{flexFlow: "row"}}
@@ -1037,8 +1016,9 @@ class Header extends React.Component {
                                                 : "column-hide-xs",
                                             {
                                                 active:
-                                                    active.indexOf("explorer") !==
-                                                    -1
+                                                    active.indexOf(
+                                                        "explorer"
+                                                    ) !== -1
                                             }
                                         )}
                                         onClick={this._onNavigate.bind(
@@ -1060,6 +1040,47 @@ class Header extends React.Component {
                                             className="column-hide-small"
                                             component="span"
                                             content="header.explorer"
+                                        />
+                                    </a>
+                                </li>
+                            ) : null}
+                            {!createAccountLink ||
+                            active.indexOf("deposit-withdraw") !== -1 ? (
+                                <li>
+                                    <a
+                                        style={{flexFlow: "row"}}
+                                        className={cnames(
+                                            active.indexOf(
+                                                "deposit-withdraw"
+                                            ) !== -1
+                                                ? null
+                                                : "column-hide-xs",
+                                            {
+                                                active:
+                                                    active.indexOf(
+                                                        "deposit-withdraw"
+                                                    ) !== -1
+                                            }
+                                        )}
+                                        onClick={this._onNavigate.bind(
+                                            this,
+                                            "/deposit-withdraw"
+                                        )}
+                                    >
+                                        <Icon
+                                            size="1_5x"
+                                            style={{
+                                                position: "relative",
+                                                top: -2,
+                                                left: -8
+                                            }}
+                                            name="deposit"
+                                            title="icons.deposit.deposit_withdraw"
+                                        />
+                                        <Translate
+                                            className="column-hide-small"
+                                            component="span"
+                                            content="header.deposit-withdraw"
                                         />
                                     </a>
                                 </li>
