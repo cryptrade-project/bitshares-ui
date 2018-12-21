@@ -1,5 +1,5 @@
 import ls from "./localStorage";
-import {blockTradesAPIs, openledgerAPIs} from "api/apiConfig";
+import {cryptradeAPIs} from "api/apiConfig";
 import {availableGateways} from "common/gateways";
 const blockTradesStorage = new ls("");
 
@@ -15,7 +15,7 @@ function setCacheClearTimer(key) {
 }
 
 export function fetchCoins(
-    url = openledgerAPIs.BASE + openledgerAPIs.COINS_LIST
+    url = cryptradeAPIs.BASE + cryptradeAPIs.COINS_LIST
 ) {
     const key = "fetchCoins_" + url;
     let currentPromise = fetchInProgess[key];
@@ -47,7 +47,7 @@ export function fetchCoins(
 }
 
 export function fetchCoinsSimple(
-    url = openledgerAPIs.BASE + openledgerAPIs.COINS_LIST
+    url = cryptradeAPIs.BASE + cryptradeAPIs.COINS_LIST
 ) {
     return fetch(url)
         .then(reply =>
@@ -62,7 +62,7 @@ export function fetchCoinsSimple(
 }
 
 export function fetchTradingPairs(
-    url = blockTradesAPIs.BASE + blockTradesAPIs.TRADING_PAIRS
+    url = cryptradeAPIs.BASE + cryptradeAPIs.TRADING_PAIRS
 ) {
     const key = "fetchTradingPairs_" + url;
     let currentPromise = fetchInProgess[key];
@@ -98,7 +98,7 @@ export function fetchTradingPairs(
 export function getDepositLimit(
     inputCoin,
     outputCoin,
-    url = blockTradesAPIs.BASE + blockTradesAPIs.DEPOSIT_LIMIT
+    url = cryptradeAPIs.BASE + cryptradeAPIs.DEPOSIT_LIMIT
 ) {
     return fetch(
         url +
@@ -127,7 +127,7 @@ export function estimateOutput(
     inputAmount,
     inputCoin,
     outputCoin,
-    url = blockTradesAPIs.BASE + blockTradesAPIs.ESTIMATE_OUTPUT
+    url = cryptradeAPIs.BASE + cryptradeAPIs.ESTIMATE_OUTPUT
 ) {
     return fetch(
         url +
@@ -158,7 +158,7 @@ export function estimateInput(
     outputAmount,
     inputCoin,
     outputCoin,
-    url = blockTradesAPIs.BASE + blockTradesAPIs.ESTIMATE_INPUT
+    url = cryptradeAPIs.BASE + cryptradeAPIs.ESTIMATE_INPUT
 ) {
     return fetch(
         url +
@@ -189,7 +189,7 @@ export function estimateInput(
 }
 
 export function getActiveWallets(
-    url = openledgerAPIs.BASE + openledgerAPIs.ACTIVE_WALLETS
+    url = cryptradeAPIs.BASE + cryptradeAPIs.ACTIVE_WALLETS
 ) {
     const key = "getActiveWallets_" + url;
     let currentPromise = fetchInProgess[key];
@@ -230,7 +230,7 @@ export function getDepositAddress({coin, account, stateCallback}) {
 
     let body_string = JSON.stringify(body);
 
-    fetch(openledgerAPIs.BASE + "/simple-api/get-last-address", {
+    fetch(cryptradeAPIs.BASE + "/simple-api/get-last-address", {
         method: "POST",
         headers: new Headers({
             Accept: "application/json",
@@ -273,7 +273,7 @@ export function requestDepositAddress({
     inputCoinType,
     outputCoinType,
     outputAddress,
-    url = openledgerAPIs.BASE,
+    url = cryptradeAPIs.BASE,
     stateCallback,
     selectedGateway
 }) {
@@ -399,7 +399,7 @@ export function getBackedCoins({allCoins, tradingPairs, backer}) {
 }
 
 export function validateAddress({
-    url = blockTradesAPIs.BASE,
+    url = cryptradeAPIs.BASE,
     walletType,
     newAddress,
     output_coin_type = null,
