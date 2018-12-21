@@ -308,19 +308,7 @@ export function getAssetHideNamespaces() {
  * @returns {boolean}
  */
 export function allowedGateway(gateway) {
-    return (
-        [
-            "OPEN",
-            "RUDEX",
-            "WIN",
-            "BRIDGE",
-            "GDEX",
-            "XBTSX",
-            "SPARKDEX",
-            "CITADEL",
-            "CRYPTRADE"
-        ].indexOf(gateway) >= 0
-    );
+    return ["CRYPTRADE"].indexOf(gateway) >= 0;
 }
 
 export function getSupportedLanguages() {
