@@ -288,7 +288,8 @@ export function getAssetNamespaces() {
         "GDEX.",
         "XBTSX.",
         "SPARKDEX.",
-        "CITADEL."
+        "CITADEL.",
+        "CRYPTRADE."
     ];
 }
 
@@ -316,7 +317,8 @@ export function allowedGateway(gateway) {
             "GDEX",
             "XBTSX",
             "SPARKDEX",
-            "CITADEL"
+            "CITADEL",
+            "CRYPTRADE"
         ].indexOf(gateway) >= 0
     );
 }
