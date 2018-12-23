@@ -2195,6 +2195,12 @@
         "account": {
             "intro_text_title": "Welcome to Cryptrade"
         },
+        "gateway": {
+            "deposit_or_withdrawal": "Depositing or withdrawing coins",
+            "deposit_intro": "If you want to deposit or withdraw funds from other coins/tokens, please use the form below.",
+            "receive_funds": "Receiving funds",
+            "receive_funds_intro": "In order to receive funds from another user on %(wallet_name)s, simply give them your account name: "
+        },
         "footer": {
             "title": "Cryptrade Decentralized Exchange"
         }

@@ -29,6 +29,7 @@ import PropTypes from "prop-types";
 import DepositModal from "../Modal/DepositModal";
 import WithdrawModal from "../Modal/WithdrawModalNew";
 import TranslateWithLinks from "../Utility/TranslateWithLinks";
+import {getWalletName} from "../../branding";
 
 class AccountDepositWithdraw extends React.Component {
     static propTypes = {
@@ -72,6 +73,10 @@ class AccountDepositWithdraw extends React.Component {
             !utils.are_equal_shallow(
                 nextProps.citadelBackedCoins,
                 this.props.citadelBackedCoins
+            ) ||
+            !utils.are_equal_shallow(
+                nextProps.cryptradeBackedCoins,
+                this.props.cryptradeBackedCoins
             ) ||
             nextState.olService !== this.state.olService ||
             nextState.rudexService !== this.state.rudexService ||
@@ -172,7 +177,8 @@ class AccountDepositWithdraw extends React.Component {
         openLedgerGatewayCoins,
         rudexGatewayCoins,
         bitsparkGatewayCoins,
-        xbtsxGatewayCoins
+        xbtsxGatewayCoins,
+        cryptradeGatewayCoins
     ) {
         //let services = ["Openledger (OPEN.X)", "BlockTrades (TRADE.X)", "Transwiser", "BitKapital"];
         let serList = [];
@@ -185,6 +191,11 @@ class AccountDepositWithdraw extends React.Component {
             xbtsxService,
             citadelService
         } = this.state;
+        serList.push({
+            name: "Cryptrade",
+            template: <div />
+        });
+
         serList.push({
             name: "Openledger (OPEN.X)",
             template: (
@@ -578,11 +589,18 @@ class AccountDepositWithdraw extends React.Component {
                 return 0;
             });
 
+        let cryptradeGatewayCoins = this.props.cryptradeBackedCoins.map(
+            coin => {
+                return coin;
+            }
+        );
+
         let services = this.renderServices(
             openLedgerGatewayCoins,
             rudexGatewayCoins,
             bitsparkGatewayCoins,
-            xbtsxGatewayCoins
+            xbtsxGatewayCoins,
+            cryptradeGatewayCoins
         );
 
         let options = services.map((services_obj, index) => {
@@ -594,18 +612,24 @@ class AccountDepositWithdraw extends React.Component {
         });
 
         const serviceNames = [
-            "Winex",
-            "GDEX",
+            "Cryptrade",
             "OPEN",
             "RUDEX",
             "SPARKDEX",
-            "TRADE",
-            "BITKAPITAL",
             "XBTSX",
-            "CITADEL"
+            "TRADE",
+            "CITADEL",
+            "BITKAPITAL",
+            "GDEX",
+            "Winex"
         ];
         const currentServiceName = serviceNames[activeService];
         const currentServiceDown = servicesDown.get(currentServiceName);
+        console.log(
+            "Active Gateway Service",
+            currentServiceName,
+            activeService
+        );
 
         return (
             <div
@@ -620,34 +644,29 @@ class AccountDepositWithdraw extends React.Component {
                     <Translate content="gateway.title" component="h2" />
                     <div className="grid-block vertical medium-horizontal no-margin no-padding">
                         <div className="medium-6 show-for-medium">
-                            <HelpContent
-                                path="components/DepositWithdraw"
-                                section="deposit-short"
-                            />
+                            <h3>
+                                <Translate content="cryptrade.gateway.deposit_or_withdrawal" />
+                            </h3>
+                            <p>
+                                <Translate content="cryptrade.gateway.deposit_intro" />
+                            </p>
                         </div>
                         <div className="medium-5 medium-offset-1">
-                            <HelpContent
-                                account={account.get("name")}
-                                path="components/DepositWithdraw"
-                                section="receive"
-                            />
+                            <h3>
+                                <Translate content="cryptrade.gateway.receive_funds" />
+                            </h3>
+                            <p>
+                                <Translate
+                                    content="cryptrade.gateway.receive_funds_intro"
+                                    wallet_name={getWalletName()}
+                                />
+                                <strong>{account.get("name")}</strong>
+                            </p>
                         </div>
                     </div>
                     <div>
                         <div className="grid-block vertical medium-horizontal no-margin no-padding">
                             <div className="medium-6 small-order-2 medium-order-1">
-                                <Translate
-                                    component="label"
-                                    className="left-label"
-                                    content="gateway.service"
-                                />
-                                <select
-                                    onChange={this.onSetService.bind(this)}
-                                    className="bts-select"
-                                    value={activeService}
-                                >
-                                    {options}
-                                </select>
                                 {currentServiceDown ? (
                                     <Translate
                                         style={{
@@ -758,6 +777,10 @@ export default connect(
                 ),
                 xbtsxBackedCoins: GatewayStore.getState().backedCoins.get(
                     "XBTSX",
+                    []
+                ),
+                cryptradeBackedCoins: GatewayStore.getState().backedCoins.get(
+                    "CRYPTRADE",
                     []
                 ),
                 servicesDown: GatewayStore.getState().down || {}
