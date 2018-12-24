@@ -280,17 +280,7 @@ export function getFeaturedMarkets(quotes = []) {
  * @returns {[string,string,string,string,string,string,string]}
  */
 export function getAssetNamespaces() {
-    return [
-        "OPEN.",
-        "RUDEX.",
-        "WIN.",
-        "BRIDGE.",
-        "GDEX.",
-        "XBTSX.",
-        "SPARKDEX.",
-        "CITADEL.",
-        "CRYPTRADE."
-    ];
+    return ["CRYPTRADE."];
 }
 
 /**
@@ -299,7 +289,7 @@ export function getAssetNamespaces() {
  */
 export function getAssetHideNamespaces() {
     // e..g "OPEN.", "bit"
-    return [];
+    return ["CRYPTRADE."];
 }
 
 /**
