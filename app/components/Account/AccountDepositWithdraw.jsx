@@ -23,6 +23,7 @@ import BitsparkGateway from "../DepositWithdraw/bitspark/BitsparkGateway";
 import GdexGateway from "../DepositWithdraw/gdex/GdexGateway";
 import WinexGateway from "../DepositWithdraw/winex/WinexGateway";
 import XbtsxGateway from "../DepositWithdraw/xbtsx/XbtsxGateway";
+import CryptradeGateway from "../DepositWithdraw/cryptrade/CryptradeGateway";
 import PropTypes from "prop-types";
 import {getWalletName} from "../../branding";
 
@@ -188,7 +189,14 @@ class AccountDepositWithdraw extends React.Component {
         } = this.state;
         serList.push({
             name: "Cryptrade",
-            template: <div />
+            template: (
+                <div>
+                    <CryptradeGateway
+                        account={account}
+                        coins={cryptradeGatewayCoins}
+                    />
+                </div>
+            )
         });
 
         serList.push({
