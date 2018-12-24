@@ -97,7 +97,7 @@ class CryptradeGatewayDepositRequest extends React.Component {
     _getDepositObject() {
         return {
             inputCoinType: assetUtils
-                .addCryptoBridgeNameSpace(this.props.deposit_coin_type)
+                .addCryptradeNameSpace(this.props.deposit_coin_type)
                 .toLowerCase(), // TODO why does the backup coin need bridge namespace?
             outputCoinType: this.props.receive_coin_type,
             outputAddress: this.props.account.get("name"),
@@ -652,7 +652,7 @@ class CryptradeGatewayDepositRequest extends React.Component {
                                 gateFee={gate_fee}
                                 output_coin_symbol={this.props.deposit_asset}
                                 output_coin_type={assetUtils
-                                    .addCryptoBridgeNameSpace(
+                                    .addCryptradeNameSpace(
                                         this.props.deposit_coin_type
                                     )
                                     .toLowerCase()}

@@ -1,10 +1,16 @@
+import asset_utils from "./asset_utils";
+
 var numeral = require("numeral");
 let id_regex = /\b\d+\.\d+\.(\d+)\b/;
 
 import {ChainTypes} from "bitsharesjs";
 var {object_type} = ChainTypes;
 
-import {getAssetNamespaces, getAssetHideNamespaces} from "../../branding";
+import {
+    getAssetNamespaces,
+    getAssetHideNamespaces,
+    getCryptradeRealAssetNames
+} from "../../branding";
 
 var Utils = {
     is_object_id: obj_id => {
@@ -433,6 +439,14 @@ var Utils = {
             if (name.indexOf(toReplace[i]) !== -1) {
                 name = name.replace(toReplace[i], "") + suffix;
                 break;
+            }
+        }
+
+        // rename specific Cryptrade Issued Asset
+        if (asset_utils.isCryptradeIssuedAsset(asset)) {
+            const realNames = getCryptradeRealAssetNames();
+            if (realNames[name]) {
+                name = realNames[name];
             }
         }
 

@@ -336,3 +336,13 @@ export function getCryptradeIssuerAccount() {
 export function getCryptradeSupportEmail() {
     return "support@cryptrade.io";
 }
+
+/**
+ * Map issued asset name to real asset name, in case the asset name include numbers
+ * @returns {{}}
+ */
+export function getCryptradeRealAssetNames() {
+    // e..g BRIM: "BR1M"
+    // issued asset name : "real asset name"
+    return {};
+}
