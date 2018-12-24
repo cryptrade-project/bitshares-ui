@@ -14,7 +14,7 @@ import DepositWithdrawAssetSelector from "../DepositWithdrawAssetSelector";
 import Immutable from "immutable";
 import LoadingIndicator from "../../LoadingIndicator";
 import PropTypes from "prop-types";
-import AssetTradingPairInfo from "../../Utility/AssetTraidingPairInfo";
+import AssetTradingPairInfo from "../../Utility/AssetTradingPairInfo";
 
 class CryptradeGateway extends React.Component {
     static propTypes = {

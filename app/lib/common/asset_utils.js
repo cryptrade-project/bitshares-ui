@@ -91,4 +91,28 @@ export default class AssetUtils {
         }
         return parsed ? parsed : {main: description};
     }
+
+    static getTradingPairInfoMessages(asset, deposit) {
+        if (!asset || !asset.tradingPairInfo) {
+            return [];
+        }
+
+        return asset.tradingPairInfo.filter(info => {
+            if (
+                deposit &&
+                info.disabled &&
+                info.outputCoinType === asset.symbol.toLowerCase()
+            ) {
+                return true;
+            }
+            if (
+                !deposit &&
+                info.disabled &&
+                info.inputCoinType === asset.symbol.toLowerCase()
+            ) {
+                return true;
+            }
+            return false;
+        });
+    }
 }
