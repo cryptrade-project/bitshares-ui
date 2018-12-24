@@ -7,7 +7,7 @@ import CryptoBridgeWithdrawModal from "./CryptradeWithdrawModal";
 import BaseModal from "../../Modal/BaseModal";
 import ZfApi from "react-foundation-apps/src/utils/foundation-api";
 import AccountBalance from "../../Account/AccountBalance";
-import AssetDepositInfo from "components/Utility/AssetDepositInfo";
+import AssetDepositInfo from "../../Utility/AssetDepositInfo";
 import AssetDepositFeeWarning from "../../Utility/AssetDepositFeeWarning";
 import AssetName from "components/Utility/AssetName";
 import assetUtils from "common/asset_utils";
