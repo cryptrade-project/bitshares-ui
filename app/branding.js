@@ -309,3 +309,11 @@ export function getAllowedLogins() {
     // possible: list containing any combination of ["password", "wallet"]
     return ["password", "wallet"];
 }
+
+/**
+ * Namespace of Cryptrade Issued Assets
+ * @returns {string}
+ */
+export function getCryptradeAssetNamespace() {
+    return "CRYPTRADE.";
+}

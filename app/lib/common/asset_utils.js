@@ -1,5 +1,6 @@
 import assetConstants from "../chain/asset_constants";
 import sanitize from "sanitize";
+import {getCryptradeAssetNamespace} from "../../branding";
 
 export default class AssetUtils {
     static getFlagBooleans(mask, isBitAsset = false) {
@@ -90,6 +91,10 @@ export default class AssetUtils {
             });
         }
         return parsed ? parsed : {main: description};
+    }
+
+    static getCleanAssetSymbol(symbol) {
+        return symbol.toUpperCase().replace(getCryptradeAssetNamespace(), "");
     }
 
     static getTradingPairInfoMessages(asset, deposit) {
