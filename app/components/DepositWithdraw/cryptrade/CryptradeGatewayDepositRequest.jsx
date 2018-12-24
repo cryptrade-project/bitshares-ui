@@ -3,7 +3,7 @@ import Translate from "react-translate-component";
 import {ChainStore} from "bitsharesjs/es";
 import ChainTypes from "components/Utility/ChainTypes";
 import BindToChainState from "components/Utility/BindToChainState";
-import CryptoBridgeWithdrawModal from "./CryptradeWithdrawModal";
+import CryptradeWithdrawModal from "./CryptradeWithdrawModal";
 import BaseModal from "../../Modal/BaseModal";
 import ZfApi from "react-foundation-apps/src/utils/foundation-api";
 import AccountBalance from "../../Account/AccountBalance";
@@ -13,7 +13,7 @@ import AssetName from "components/Utility/AssetName";
 import assetUtils from "common/asset_utils";
 import LinkToAccountById from "components/Utility/LinkToAccountById";
 import {requestDepositAddress, getDepositAddress} from "common/gatewayMethods";
-import {cryptoBridgeAPIs} from "api/apiConfig";
+import {cryptradeAPIs} from "api/apiConfig";
 import LoadingIndicator from "components/LoadingIndicator";
 import counterpart from "counterpart";
 import WalletUnlockActions from "../../../actions/WalletUnlockActions";
@@ -101,7 +101,7 @@ class CryptradeGatewayDepositRequest extends React.Component {
                 .toLowerCase(), // TODO why does the backup coin need bridge namespace?
             outputCoinType: this.props.receive_coin_type,
             outputAddress: this.props.account.get("name"),
-            url: cryptoBridgeAPIs.BASE,
+            url: cryptradeAPIs.BASE,
             stateCallback: this.addDepositAddress
         };
     }
@@ -363,7 +363,7 @@ class CryptradeGatewayDepositRequest extends React.Component {
                                     </tr>
                                     <tr>
                                         <td>
-                                            <Translate content="cryptobridge.gateway.deposit_minimum" />
+                                            <Translate content="cryptrade.gateway.deposit_minimum" />
                                             :
                                         </td>
                                         <td style={depositRightCellStyle}>
@@ -379,7 +379,7 @@ class CryptradeGatewayDepositRequest extends React.Component {
                                     {this.props.required_confirmations > 0 && (
                                         <tr>
                                             <td>
-                                                <Translate content="cryptobridge.gateway.required_confirmations" />
+                                                <Translate content="cryptrade.gateway.required_confirmations" />
                                                 :
                                             </td>
                                             <td style={depositRightCellStyle}>
@@ -443,7 +443,7 @@ class CryptradeGatewayDepositRequest extends React.Component {
                                         <Translate
                                             className="label alert"
                                             component="label"
-                                            content="cryptobridge.gateway.deposit_login"
+                                            content="cryptrade.gateway.deposit_login"
                                             style={labelStyle}
                                         />
                                         <div>
@@ -643,11 +643,11 @@ class CryptradeGatewayDepositRequest extends React.Component {
                     <BaseModal id={withdraw_modal_id} overlay={true}>
                         <br />
                         <div className="grid-block vertical">
-                            <CryptoBridgeWithdrawModal
+                            <CryptradeWithdrawModal
                                 account={this.props.account.get("name")}
                                 issuer={this.props.issuer_account.get("name")}
                                 asset={this.props.receive_asset.get("symbol")}
-                                url={cryptoBridgeAPIs.BASE}
+                                url={cryptradeAPIs.BASE}
                                 output_coin_name={this.props.deposit_asset_name}
                                 gateFee={gate_fee}
                                 output_coin_symbol={this.props.deposit_asset}
