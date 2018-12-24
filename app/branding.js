@@ -317,3 +317,22 @@ export function getAllowedLogins() {
 export function getCryptradeAssetNamespace() {
     return "CRYPTRADE.";
 }
+
+/**
+ * Issuer Account of Cryptrade
+ * @returns {{name: string, id: string}}
+ */
+export function getCryptradeIssuerAccount() {
+    return {
+        id: "1.2.1150161",
+        name: "cryptrade"
+    };
+}
+
+/**
+ * Support Email of Cryptrade
+ * @returns {string}
+ */
+export function getCryptradeSupportEmail() {
+    return "support@cryptrade.io";
+}

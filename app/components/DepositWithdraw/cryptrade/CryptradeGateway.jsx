@@ -15,6 +15,10 @@ import Immutable from "immutable";
 import LoadingIndicator from "../../LoadingIndicator";
 import PropTypes from "prop-types";
 import AssetTradingPairInfo from "../../Utility/AssetTradingPairInfo";
+import {
+    getCryptradeIssuerAccount,
+    getCryptradeSupportEmail
+} from "../../../branding";
 
 class CryptradeGateway extends React.Component {
     static propTypes = {
@@ -84,9 +88,9 @@ class CryptradeGateway extends React.Component {
         const isDeposit = this.state.action === "deposit";
 
         const coinIssuer = {
-            name: "cryptrade",
-            id: __TESTNET__ ? "1.2.18" : "1.2.1150161",
-            support: "support@cryptrade.io"
+            name: getCryptradeIssuerAccount().name,
+            id: getCryptradeIssuerAccount().id,
+            support: getCryptradeSupportEmail()
         };
 
         if (!coins.length) {
