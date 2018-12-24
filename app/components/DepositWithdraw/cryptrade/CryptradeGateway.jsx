@@ -1,5 +1,5 @@
 import React from "react";
-import CryptoBridgeGatewayDepositRequest from "./CryptradeGatewayDepositRequest";
+import CryptradeGatewayDepositRequest from "./CryptradeGatewayDepositRequest";
 import Translate from "react-translate-component";
 import {connect} from "alt-react";
 import SettingsStore from "stores/SettingsStore";
@@ -218,7 +218,7 @@ class CryptradeGateway extends React.Component {
                             }}
                         >
                             {tradingPairMessages.length ? null : (
-                                <CryptoBridgeGatewayDepositRequest
+                                <CryptradeGatewayDepositRequest
                                     key={`${coin.symbol}`}
                                     gateway={provider}
                                     issuer_account={coinIssuer.name}
@@ -262,7 +262,7 @@ class CryptradeGateway extends React.Component {
                             )}
                             <label className="left-label">Support</label>
                             <div>
-                                <Translate content="cryptobridge.gateway.support_block" />
+                                <Translate content="cryptrade.gateway.support_block" />
                                 <br />
                                 <br />
                                 <a
