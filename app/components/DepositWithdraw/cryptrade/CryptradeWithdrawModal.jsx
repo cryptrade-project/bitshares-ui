@@ -462,7 +462,7 @@ class CryptradeWithdrawModal extends React.Component {
     }
 
     getWithdrawModalId() {
-        return this.props.modal_id || "cryptoBridgeWithDrawModal";
+        return this.props.modal_id || "cryptradeWithdrawModal";
     }
 
     onAccountBalance() {
