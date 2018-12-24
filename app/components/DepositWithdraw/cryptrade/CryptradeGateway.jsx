@@ -85,7 +85,7 @@ class CryptradeGateway extends React.Component {
 
         const coinIssuer = {
             name: "cryptobridge",
-            id: __TESTNET__ || __DEVNET__ ? "1.2.18" : "1.2.374566",
+            id: __TESTNET__ ? "1.2.18" : "1.2.374566",
             support: "support@crypto-bridge.org"
         };
 
