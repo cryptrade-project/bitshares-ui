@@ -24,7 +24,7 @@ class CryptradeGateway extends React.Component {
     };
 
     static defaultProps = {
-        provider: "CryptoBridge"
+        provider: "cryptrade"
     };
 
     constructor(props) {
@@ -41,7 +41,7 @@ class CryptradeGateway extends React.Component {
             `activeCoin_${props.provider}`,
             null
         );
-        let firstTimeCoin = "BCO";
+        let firstTimeCoin = "CRCO";
         let activeCoin = cachedCoin ? cachedCoin : firstTimeCoin;
         return activeCoin;
     }
@@ -84,9 +84,9 @@ class CryptradeGateway extends React.Component {
         const isDeposit = this.state.action === "deposit";
 
         const coinIssuer = {
-            name: "cryptobridge",
-            id: __TESTNET__ ? "1.2.18" : "1.2.374566",
-            support: "support@crypto-bridge.org"
+            name: "cryptrade",
+            id: __TESTNET__ ? "1.2.18" : "1.2.1150161",
+            support: "support@cryptrade.io"
         };
 
         if (!coins.length) {
@@ -236,7 +236,7 @@ class CryptradeGateway extends React.Component {
                                     asset_precision={coin.precision}
                                     action={this.state.action}
                                     is_available={coin.isAvailable}
-                                    /* CryptoBridge */
+                                    /* Cryptrade */
                                     required_confirmations={
                                         coin.requiredConfirmations
                                     }
