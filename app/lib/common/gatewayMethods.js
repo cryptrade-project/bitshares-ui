@@ -349,12 +349,17 @@ export function getBackedCoins({allCoins, tradingPairs, backer}) {
     );
 
     let allowed_outputs_by_input = {};
+    let additional_trading_pair_info = {};
     tradingPairs.forEach(pair => {
         if (!allowed_outputs_by_input[pair.inputCoinType])
             allowed_outputs_by_input[pair.inputCoinType] = {};
         allowed_outputs_by_input[pair.inputCoinType][
             pair.outputCoinType
         ] = true;
+        if (!additional_trading_pair_info[pair.inputCoinType])
+            additional_trading_pair_info[pair.inputCoinType] = [];
+
+        additional_trading_pair_info[pair.inputCoinType].push(pair);
     });
 
     let backedCoins = [];
@@ -376,6 +381,12 @@ export function getBackedCoins({allCoins, tradingPairs, backer}) {
                     inputCoin.backingCoinType
                 ];
 
+            const tradingPairInfo = (
+                additional_trading_pair_info[inputCoin.coinType] || []
+            ).concat(
+                additional_trading_pair_info[inputCoin.backingCoinType] || []
+            );
+
             backedCoins.push({
                 name: outputCoin.name,
                 intermediateAccount: !!gatewayStatus.intermediateAccount
@@ -391,7 +402,19 @@ export function getBackedCoins({allCoins, tradingPairs, backer}) {
                 symbol: inputCoin.walletSymbol,
                 supportsMemos: outputCoin.supportsOutputMemos,
                 depositAllowed: isDepositAllowed,
-                withdrawalAllowed: isWithdrawalAllowed
+                withdrawalAllowed: isWithdrawalAllowed,
+
+                /* Additional info of Cryptrade issued assets */
+                requiredConfirmations: outputCoin.requiredConfirmations,
+                depositAccount: outputCoin.depositAccount,
+                depositFeeEnabled: outputCoin.depositFeeEnabled,
+                depositFeeTimeframe: outputCoin.depositFeeTimeframe,
+                depositFeePercentage: outputCoin.depositFeePercentage,
+                depositFeeMinimum: outputCoin.depositFeeMinimum,
+                depositFeePercentageLowAmounts:
+                    outputCoin.depositFeePercentageLowAmounts,
+                info: outputCoin.info,
+                tradingPairInfo
             });
         }
     });
