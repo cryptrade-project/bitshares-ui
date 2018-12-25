@@ -1,5 +1,4 @@
 import React from "react";
-import Trigger from "react-foundation-apps/src/trigger";
 import Translate from "react-translate-component";
 import ChainTypes from "components/Utility/ChainTypes";
 import BindToChainState from "components/Utility/BindToChainState";
@@ -8,15 +7,15 @@ import BalanceComponent from "components/Utility/BalanceComponent";
 import counterpart from "counterpart";
 import AmountSelector from "components/Utility/AmountSelector";
 import AccountActions from "actions/AccountActions";
-import ZfApi from "react-foundation-apps/src/utils/foundation-api";
 import {validateAddress, WithdrawAddresses} from "common/gatewayMethods";
 import {ChainStore} from "bitsharesjs/es";
-import Modal from "react-foundation-apps/src/modal";
 import {checkFeeStatusAsync, checkBalance} from "common/trxHelper";
 import {debounce} from "lodash";
 import {Price, Asset} from "common/MarketClasses";
+import {Button, Modal} from "bitshares-ui-style-guide";
 import TransactionConfirmStore from "../../../stores/TransactionConfirmStore";
 import PropTypes from "prop-types";
+import assetUtils from "../../../lib/common/asset_utils";
 
 class CryptradeWithdrawModal extends React.Component {
     static propTypes = {
@@ -38,6 +37,7 @@ class CryptradeWithdrawModal extends React.Component {
         super(props);
 
         this.state = {
+            isConfirmationModalVisible: false,
             withdraw_amount: this.props.amount_to_withdraw,
             withdraw_address: WithdrawAddresses.getLast(
                 props.output_wallet_type
@@ -61,6 +61,21 @@ class CryptradeWithdrawModal extends React.Component {
 
         this._checkBalance = this._checkBalance.bind(this);
         this._updateFee = debounce(this._updateFee.bind(this), 250);
+
+        this.showConfirmationModal = this.showConfirmationModal.bind(this);
+        this.hideConfirmationModal = this.hideConfirmationModal.bind(this);
+    }
+
+    showConfirmationModal() {
+        this.setState({
+            isConfirmationModalVisible: true
+        });
+    }
+
+    hideConfirmationModal() {
+        this.setState({
+            isConfirmationModalVisible: false
+        });
     }
 
     componentWillMount() {
@@ -84,7 +99,7 @@ class CryptradeWithdrawModal extends React.Component {
                     transferring: true
                 });
             }
-            ZfApi.publish(this.getWithdrawModalId(), "close");
+            this.props.hideModal();
         } else if (confirmStoreState.closed) {
             if (!this.unMounted) {
                 this.setState({
@@ -285,7 +300,7 @@ class CryptradeWithdrawModal extends React.Component {
             this.state.withdraw_amount !== null
         ) {
             if (!this.state.withdraw_address_is_valid) {
-                ZfApi.publish(this.getWithdrawModalConfirmationId(), "open");
+                this.showConfirmationModal();
             } else if (parseFloat(this.state.withdraw_amount) > 0) {
                 if (!WithdrawAddresses.has(this.props.output_wallet_type)) {
                     let withdrawals = [];
@@ -393,7 +408,7 @@ class CryptradeWithdrawModal extends React.Component {
     }
 
     onSubmitConfirmation() {
-        ZfApi.publish(this.getWithdrawModalConfirmationId(), "close");
+        this.hideConfirmationModal();
 
         if (!WithdrawAddresses.has(this.props.output_wallet_type)) {
             let withdrawals = [];
@@ -455,10 +470,6 @@ class CryptradeWithdrawModal extends React.Component {
                 this.setState({options_is_valid: false});
             }
         }
-    }
-
-    getWithdrawModalConfirmationId() {
-        return "confirmation";
     }
 
     getWithdrawModalId() {
@@ -598,7 +609,6 @@ class CryptradeWithdrawModal extends React.Component {
         let account_balances = this.props.account.get("balances").toJS();
         let asset_types = Object.keys(account_balances);
 
-        let withdrawModalConfirmationId = this.getWithdrawModalConfirmationId();
         let invalid_address_message = null;
         let options = null;
         let confirmation = null;
@@ -635,37 +645,41 @@ class CryptradeWithdrawModal extends React.Component {
                     <div className="has-error" style={{paddingTop: 10}}>
                         <Translate
                             content="gateway.valid_address"
-                            coin_type={this.props.output_coin_type}
+                            coin_type={assetUtils.replaceAssetSymbol(
+                                this.props.output_coin_symbol
+                            )}
                         />
                     </div>
                 );
                 confirmation = (
-                    <Modal id={withdrawModalConfirmationId} overlay={true}>
-                        <Trigger close={withdrawModalConfirmationId}>
-                            <a href="#" className="close-button">
-                                &times;
-                            </a>
-                        </Trigger>
-                        <br />
+                    <Modal
+                        closable={false}
+                        footer={[
+                            <Button
+                                key="submit"
+                                type="primary"
+                                onClick={this.onSubmitConfirmation.bind(this)}
+                            >
+                                {counterpart.translate(
+                                    "modal.confirmation.accept"
+                                )}
+                            </Button>,
+                            <Button
+                                key="cancel"
+                                style={{marginLeft: "8px"}}
+                                onClick={this.hideConfirmationModal}
+                            >
+                                {counterpart.translate(
+                                    "modal.confirmation.cancel"
+                                )}
+                            </Button>
+                        ]}
+                        visible={this.state.isConfirmationModalVisible}
+                        onCancel={this.hideConfirmationModal}
+                    >
                         <label>
                             <Translate content="modal.confirmation.title" />
                         </label>
-                        <br />
-                        <div className="content-block">
-                            <input
-                                type="submit"
-                                className="button"
-                                onClick={this.onSubmitConfirmation.bind(this)}
-                                value={counterpart.translate(
-                                    "modal.confirmation.accept"
-                                )}
-                            />
-                            <Trigger close={withdrawModalConfirmationId}>
-                                <a href className="secondary button">
-                                    <Translate content="modal.confirmation.cancel" />
-                                </a>
-                            </Trigger>
-                        </div>
                     </Modal>
                 );
             }
@@ -739,18 +753,11 @@ class CryptradeWithdrawModal extends React.Component {
             this.state.transferring;
 
         return (
-            <form className="grid-block vertical full-width-content">
+            <form
+                className="grid-block vertical full-width-content"
+                style={{paddingTop: "0px"}}
+            >
                 <div className="grid-container">
-                    <div className="content-block">
-                        <h3>
-                            <Translate
-                                content="gateway.withdraw_coin"
-                                coin={this.props.output_coin_name}
-                                symbol={this.props.output_coin_symbol}
-                            />
-                        </h3>
-                    </div>
-
                     {/* Withdraw amount */}
                     <div className="content-block">
                         <AmountSelector
@@ -833,7 +840,9 @@ class CryptradeWithdrawModal extends React.Component {
                                 <div className="form-label select floating-dropdown">
                                     <div className="dropdown-wrapper inactive">
                                         <div>
-                                            {this.props.output_coin_symbol}
+                                            {assetUtils.replaceAssetSymbol(
+                                                this.props.output_coin_symbol
+                                            )}
                                         </div>
                                     </div>
                                 </div>
@@ -873,21 +882,21 @@ class CryptradeWithdrawModal extends React.Component {
                     {withdraw_memo}
 
                     {/* Withdraw/Cancel buttons */}
-                    <div className="button-group">
-                        <div
+                    <div>
+                        <Button
+                            type="primary"
+                            disabled={disableSubmit}
                             onClick={this.onSubmit.bind(this)}
-                            className={
-                                "button" + (disableSubmit ? " disabled" : "")
-                            }
                         >
-                            <Translate content="modal.withdraw.submit" />
-                        </div>
+                            {counterpart.translate("modal.withdraw.submit")}
+                        </Button>
 
-                        <Trigger close={this.getWithdrawModalId()}>
-                            <div className="button">
-                                <Translate content="account.perm.cancel" />
-                            </div>
-                        </Trigger>
+                        <Button
+                            onClick={this.props.hideModal}
+                            style={{marginLeft: "8px"}}
+                        >
+                            {counterpart.translate("account.perm.cancel")}
+                        </Button>
                     </div>
                     {confirmation}
                 </div>
