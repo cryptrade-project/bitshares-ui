@@ -677,9 +677,9 @@ class CryptradeWithdrawModal extends React.Component {
                         visible={this.state.isConfirmationModalVisible}
                         onCancel={this.hideConfirmationModal}
                     >
-                        <label>
+                        <p>
                             <Translate content="modal.confirmation.title" />
-                        </label>
+                        </p>
                     </Modal>
                 );
             }
