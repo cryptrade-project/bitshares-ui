@@ -418,6 +418,7 @@ class WalletUnlockModal extends React.Component {
                     data-tip={counterpart.translate(
                         "wallet.remember_me_explanation"
                     )}
+                    key="rememberMe-switch"
                 >
                     <Translate content="wallet.remember_me" />
                     <Switch
