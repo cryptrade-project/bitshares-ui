@@ -338,6 +338,7 @@ class CryptradeWithdrawModal extends React.Component {
                         ""
                     )
                 );
+
                 const gateFee =
                     typeof this.props.gateFee != "undefined"
                         ? parseFloat(
@@ -434,19 +435,57 @@ class CryptradeWithdrawModal extends React.Component {
             address: this.state.withdraw_address
         });
         let asset = this.props.asset;
-        let precision = utils.get_asset_precision(asset.get("precision"));
-        let amount = String.prototype.replace.call(
-            this.state.withdraw_amount,
-            /,/g,
-            ""
-        );
 
         const {feeAmount} = this.state;
+
+        const amount = parseFloat(
+            String.prototype.replace.call(this.state.withdraw_amount, /,/g, "")
+        );
+
+        const gateFee =
+            typeof this.props.gateFee != "undefined"
+                ? parseFloat(
+                      String.prototype.replace.call(
+                          this.props.gateFee,
+                          /,/g,
+                          ""
+                      )
+                  )
+                : 0.0;
+
+        let sendAmount = new Asset({
+            asset_id: asset.get("id"),
+            precision: asset.get("precision"),
+            real: amount
+        });
+
+        let balanceAmount = new Asset({
+            asset_id: asset.get("id"),
+            precision: asset.get("precision"),
+            real: 0
+        });
+
+        if (typeof this.props.balance != "undefined") {
+            balanceAmount = sendAmount.clone(this.props.balance.get("balance"));
+        }
+
+        const gateFeeAmount = new Asset({
+            asset_id: asset.get("id"),
+            precision: asset.get("precision"),
+            real: gateFee
+        });
+
+        sendAmount.plus(gateFeeAmount);
+
+        /* Insufficient balance */
+        if (balanceAmount.lt(sendAmount)) {
+            sendAmount = balanceAmount;
+        }
 
         AccountActions.transfer(
             this.props.account.get("id"),
             this.props.issuer.get("id"),
-            parseInt(amount * precision, 10),
+            sendAmount.getAmount(),
             asset.get("id"),
             this.props.output_coin_type +
                 ":" +
