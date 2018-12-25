@@ -2195,6 +2195,17 @@
         "account": {
             "intro_text_title": "Welcome to Cryptrade"
         },
+        "gateway": {
+            "required_confirmations": "Required confirmations",
+            "support_block": "For support, please contact Cryptrade at:",
+            "deposit_or_withdrawal": "Depositing or withdrawing coins",
+            "deposit_intro": "If you want to deposit or withdraw funds from other coins/tokens, please use the form below.",
+            "deposit_to_fee_warning": "WARNING: Depositing %(asset)s more than once every %(fee_time_frame)s minutes will incur a %(fee_percentage)s% deposit fee (minimum %(fee_minimum)s %(asset)s). A deposit fee of %(fee_percentage_low_amounts)s% is charged when the deposit is below 1 %(asset)s.",
+            "deposit_minimum": "Minimum deposit",
+            "deposit_login": "Your wallet must be unlocked before you make a deposit",
+            "receive_funds": "Receiving funds",
+            "receive_funds_intro": "In order to receive funds from another user on %(wallet_name)s, simply give them your account name: "
+        },
         "footer": {
             "title": "Cryptrade Decentralized Exchange"
         }

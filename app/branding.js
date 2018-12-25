@@ -280,17 +280,7 @@ export function getFeaturedMarkets(quotes = []) {
  * @returns {[string,string,string,string,string,string,string]}
  */
 export function getAssetNamespaces() {
-    return [
-        "OPEN.",
-        "RUDEX.",
-        "WIN.",
-        "BRIDGE.",
-        "GDEX.",
-        "XBTSX.",
-        "SPARKDEX.",
-        "CITADEL.",
-        "CRYPTRADE."
-    ];
+    return ["CRYPTRADE."];
 }
 
 /**
@@ -299,7 +289,7 @@ export function getAssetNamespaces() {
  */
 export function getAssetHideNamespaces() {
     // e..g "OPEN.", "bit"
-    return [];
+    return ["CRYPTRADE."];
 }
 
 /**
@@ -318,4 +308,41 @@ export function getSupportedLanguages() {
 export function getAllowedLogins() {
     // possible: list containing any combination of ["password", "wallet"]
     return ["password", "wallet"];
+}
+
+/**
+ * Namespace of Cryptrade Issued Assets
+ * @returns {string}
+ */
+export function getCryptradeAssetNamespace() {
+    return "CRYPTRADE.";
+}
+
+/**
+ * Issuer Account of Cryptrade
+ * @returns {{name: string, id: string}}
+ */
+export function getCryptradeIssuerAccount() {
+    return {
+        id: "1.2.1150161",
+        name: "cryptrade"
+    };
+}
+
+/**
+ * Support Email of Cryptrade
+ * @returns {string}
+ */
+export function getCryptradeSupportEmail() {
+    return "support@cryptrade.io";
+}
+
+/**
+ * Map issued asset name to real asset name, in case the asset name include numbers
+ * @returns {{}}
+ */
+export function getCryptradeRealAssetNames() {
+    // e..g BRIM: "BR1M"
+    // issued asset name : "real asset name"
+    return {};
 }
