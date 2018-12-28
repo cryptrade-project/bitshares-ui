@@ -136,6 +136,7 @@ class Header extends React.Component {
             nextProps.passwordLogin !== this.props.passwordLogin ||
             nextProps.locked !== this.props.locked ||
             nextProps.current_wallet !== this.props.current_wallet ||
+            nextProps.currentTheme !== this.props.currentTheme ||
             nextProps.lastMarket !== this.props.lastMarket ||
             nextProps.starredAccounts !== this.props.starredAccounts ||
             nextProps.currentLocale !== this.props.currentLocale ||
@@ -193,6 +194,20 @@ class Header extends React.Component {
         }
         this._closeDropdown();
     }
+
+    _toggleTheme = e => {
+        e.preventDefault();
+
+        const {currentTheme} = this.props;
+
+        SettingsActions.changeSetting({
+            setting: "themes",
+            value:
+                currentTheme === "midnightTheme"
+                    ? "lightTheme"
+                    : "midnightTheme"
+        });
+    };
 
     _onNavigate(route, e) {
         e.preventDefault();
@@ -1170,6 +1185,22 @@ class Header extends React.Component {
                         </span>
                     )}
                 </div>
+                <div style={{marginLeft: 14}}>
+                    <span
+                        onClick={this._toggleTheme.bind(this)}
+                        style={{cursor: "pointer"}}
+                    >
+                        <Icon
+                            className="icon"
+                            size="1_5x"
+                            name={
+                                this.props.currentTheme === "midnightTheme"
+                                    ? "sun"
+                                    : "moon"
+                            }
+                        />
+                    </span>
+                </div>
                 <div className="app-menu">
                     <div
                         onClick={this._toggleDropdownMenu}
@@ -1262,6 +1293,7 @@ Header = connect(
                 passwordAccount: AccountStore.getState().passwordAccount,
                 locked: WalletUnlockStore.getState().locked,
                 current_wallet: WalletManagerStore.getState().current_wallet,
+                currentTheme: SettingsStore.getState().settings.get("themes"),
                 lastMarket: SettingsStore.getState().viewSettings.get(
                     `lastMarket${chainID ? "_" + chainID.substr(0, 8) : ""}`
                 ),
