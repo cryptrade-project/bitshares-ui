@@ -448,6 +448,33 @@ export default class ExchangeHeader extends React.Component {
                                     "walkthrough.personalize"
                                 )}
                             >
+                                {!this.props.tinyScreen ? (
+                                    <li
+                                        className="stressed-stat input clickable column-hide-xs"
+                                        style={{padding: "16px 16px 16px 0px"}}
+                                        onClick={this.props.onToggleQuickChartType.bind(
+                                            this
+                                        )}
+                                    >
+                                        <AntIcon
+                                            type={
+                                                this.props.chartType ===
+                                                "price_chart"
+                                                    ? "area-chart"
+                                                    : "sliders"
+                                            }
+                                            style={{paddingRight: 5}}
+                                        />
+                                        <Translate
+                                            content={
+                                                this.props.chartType ===
+                                                "price_chart"
+                                                    ? "exchange.market_depth"
+                                                    : "exchange.price_history"
+                                            }
+                                        />
+                                    </li>
+                                ) : null}
                                 <li
                                     className="stressed-stat input clickable"
                                     style={{padding: "16px 16px 16px 0px"}}

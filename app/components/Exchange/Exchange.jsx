@@ -1244,6 +1244,20 @@ class Exchange extends React.Component {
         });
     }
 
+    _toggleQuickChartType() {
+        let newChartType =
+            this.state.chartType === "market_depth"
+                ? "price_chart"
+                : "market_depth";
+        this.setState({
+            chartType: newChartType
+        });
+
+        SettingsActions.changeViewSetting({
+            chartType: newChartType
+        });
+    }
+
     _chartZoom = () => {
         SettingsActions.changeViewSetting({
             chartZoom: !this.state.chartZoom
@@ -3036,6 +3050,11 @@ class Exchange extends React.Component {
                     onToggleMarketPicker={this._toggleMarketPicker.bind(this)}
                     onTogglePersonalize={this._togglePersonalize.bind(this)}
                     showVolumeChart={showVolumeChart}
+                    onToggleQuickChartType={this._toggleQuickChartType.bind(
+                        this
+                    )}
+                    chartType={chartType}
+                    tinyScreen={tinyScreen}
                 />
 
                 <div className="grid-block page-layout market-layout">
