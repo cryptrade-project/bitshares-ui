@@ -280,7 +280,17 @@ export function getFeaturedMarkets(quotes = []) {
  * @returns {[string,string,string,string,string,string,string]}
  */
 export function getAssetNamespaces() {
-    return ["CRYPTRADE."];
+    return [
+        "OPEN.",
+        "RUDEX.",
+        "WIN.",
+        "BRIDGE.",
+        "GDEX.",
+        "XBTSX.",
+        "SPARKDEX.",
+        "CITADEL.",
+        "CRYPTRADE."
+    ];
 }
 
 /**
@@ -344,5 +354,7 @@ export function getCryptradeSupportEmail() {
 export function getCryptradeRealAssetNames() {
     // e..g BRIM: "BR1M"
     // issued asset name : "real asset name"
-    return {};
+    return {
+        CRCO: "CRCO1"
+    };
 }
