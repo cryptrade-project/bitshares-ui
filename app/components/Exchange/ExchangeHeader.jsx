@@ -2,6 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import Icon from "../Icon/Icon";
 import AssetName from "../Utility/AssetName";
+import AssetImage from "../Utility/AssetImage";
 import MarketsActions from "actions/MarketsActions";
 import SettingsActions from "actions/SettingsActions";
 import PriceStatWithLabel from "./PriceStatWithLabel";
@@ -188,6 +189,15 @@ export default class ExchangeHeader extends React.Component {
             }
         }
 
+        const styles = {
+            assetImage: {
+                maxWidth: 16,
+                maxHeight: 16,
+                marginRight: 5,
+                marginTop: -2
+            }
+        };
+
         const translator = require("counterpart");
 
         let isQuoteSelected =
@@ -234,6 +244,10 @@ export default class ExchangeHeader extends React.Component {
                                                 : ""
                                         }}
                                     >
+                                        <AssetImage
+                                            name={quoteSymbol}
+                                            style={styles.assetImage}
+                                        />
                                         <AssetName
                                             name={quoteSymbol}
                                             replace={true}
@@ -254,6 +268,10 @@ export default class ExchangeHeader extends React.Component {
                                                 : ""
                                         }}
                                     >
+                                        <AssetImage
+                                            name={baseSymbol}
+                                            style={styles.assetImage}
+                                        />
                                         <AssetName
                                             name={baseSymbol}
                                             replace={true}
