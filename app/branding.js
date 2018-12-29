@@ -354,7 +354,5 @@ export function getCryptradeSupportEmail() {
 export function getCryptradeRealAssetNames() {
     // e..g BRIM: "BR1M"
     // issued asset name : "real asset name"
-    return {
-        CRCO: "CRCO1"
-    };
+    return {};
 }
