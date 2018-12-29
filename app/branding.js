@@ -356,3 +356,25 @@ export function getCryptradeRealAssetNames() {
     // issued asset name : "real asset name"
     return {};
 }
+
+/**
+ * Get default markets of Cryptrade
+ * @returns {{quote: string, id: string, base: string}[]}
+ */
+export function getCryptradeDefaultMarkets() {
+    return [
+        {
+            id: "CRYPTRADE.BCO_CRYPTRADE.BTC",
+            quote: "CRYPTRADE.BCO",
+            base: "CRYPTRADE.BTC"
+        }
+    ];
+}
+
+/**
+ * Get Static URL
+ * @returns {string}
+ */
+export function getCryptradeStaticURL() {
+    return "https://static.cryptrade.io";
+}

@@ -3,6 +3,8 @@ import {connect} from "alt-react";
 import BindToChainState from "../Utility/BindToChainState";
 import GatewayStore from "stores/GatewayStore";
 import TypeAhead from "../Utility/TypeAhead";
+import AssetImage from "../Utility/AssetImage";
+import AssetName from "../Utility/AssetName";
 import counterpart from "counterpart";
 
 class DepositWithdrawAssetSelector extends React.Component {
@@ -26,6 +28,25 @@ class DepositWithdrawAssetSelector extends React.Component {
                 return {
                     id: backedCoin,
                     label: backedCoin,
+                    labelSearch: backedCoin + item.name,
+                    labelRender: (
+                        <span>
+                            <AssetImage
+                                name={item.symbol}
+                                style={{height: 22, marginRight: 10}}
+                            />
+                            <AssetName name={item.symbol} />
+                            <span
+                                style={{
+                                    marginLeft: 10,
+                                    fontWeight: "normal",
+                                    opacity: 0.5
+                                }}
+                            >
+                                ({item.name})
+                            </span>
+                        </span>
+                    ),
                     gateway: gateway,
                     gateFee: item.gateFee,
                     issuer: item.issuerId || "1.2.96397" //Fall back to open ledger
@@ -70,20 +91,23 @@ class DepositWithdrawAssetSelector extends React.Component {
                 items={coinItems}
                 {...this.props}
                 inputProps={{placeholder: counterpart.translate(i18n)}}
-                label="gateway.asset"
+                label={props.noLabel ? null : "gateway.asset"}
             />
         );
     }
 }
 DepositWithdrawAssetSelector = BindToChainState(DepositWithdrawAssetSelector);
 
-export default connect(DepositWithdrawAssetSelector, {
-    listenTo() {
-        return [GatewayStore];
-    },
-    getProps() {
-        return {
-            backedCoins: GatewayStore.getState().backedCoins
-        };
+export default connect(
+    DepositWithdrawAssetSelector,
+    {
+        listenTo() {
+            return [GatewayStore];
+        },
+        getProps() {
+            return {
+                backedCoins: GatewayStore.getState().backedCoins
+            };
+        }
     }
-});
+);
