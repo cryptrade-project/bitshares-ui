@@ -33,7 +33,11 @@ class DepositWithdrawAssetSelector extends React.Component {
                         <span>
                             <AssetImage
                                 name={item.symbol}
-                                style={{height: 22, marginRight: 10}}
+                                style={{
+                                    height: 20,
+                                    marginRight: 10,
+                                    marginTop: -4
+                                }}
                             />
                             <AssetName name={item.symbol} />
                             <span

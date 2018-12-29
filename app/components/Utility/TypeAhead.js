@@ -217,7 +217,7 @@ export default class TypeAhead extends React.Component {
                     style={{
                         position: "absolute",
                         right: 10,
-                        top: !!this.props.label ? 35 : 7,
+                        top: !!this.props.label ? 40 : 10,
                         transform: isMenuShowing ? "rotate(180deg)" : null
                     }}
                 />
