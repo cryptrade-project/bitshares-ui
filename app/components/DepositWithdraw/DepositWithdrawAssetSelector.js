@@ -6,6 +6,7 @@ import TypeAhead from "../Utility/TypeAhead";
 import AssetImage from "../Utility/AssetImage";
 import AssetName from "../Utility/AssetName";
 import counterpart from "counterpart";
+import asset_utils from "../../lib/common/asset_utils";
 
 class DepositWithdrawAssetSelector extends React.Component {
     constructor(props) {
@@ -28,7 +29,8 @@ class DepositWithdrawAssetSelector extends React.Component {
                 return {
                     id: backedCoin,
                     label: backedCoin,
-                    labelSearch: backedCoin + item.name,
+                    labelSearch:
+                        asset_utils.replaceAssetSymbol(backedCoin) + item.name,
                     labelRender: (
                         <span>
                             <AssetImage
