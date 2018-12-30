@@ -139,7 +139,11 @@ class CryptoLinkFormatter extends React.Component {
                 </div>
             );
         } else {
-            return "";
+            return (
+                <div className="QR">
+                    <QRCode size={size} value={this.props.address} />
+                </div>
+            );
         }
     }
 }
