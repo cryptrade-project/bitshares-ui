@@ -286,6 +286,7 @@ class DepositModalContent extends DecimalChecker {
                                     defaultValue={selectedAsset}
                                     onSelect={this.onAssetSelected.bind(this)}
                                     selectOnBlur
+                                    includeBTS={false}
                                 />
                             </div>
                         </div>
