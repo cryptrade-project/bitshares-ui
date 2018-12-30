@@ -265,6 +265,7 @@ class CryptradeGatewayDepositRequest extends React.Component {
         // {
         let clipboardText = "";
         let memoText;
+        let withdraw_memo_prefix = "";
 
         if (this.props.deposit_account) {
             deposit_address_fragment = (
@@ -275,7 +276,7 @@ class CryptradeGatewayDepositRequest extends React.Component {
                 ":" +
                 this.props.account.get("name");
             deposit_memo = <span>{clipboardText}</span>;
-            var withdraw_memo_prefix = this.props.deposit_coin_type + ":";
+            withdraw_memo_prefix = this.props.deposit_coin_type + ":";
         } else {
             if (receive_address.memo) {
                 // This is a client that uses a deposit memo (like ethereum), we need to display both the address and the memo they need to send
@@ -292,7 +293,6 @@ class CryptradeGatewayDepositRequest extends React.Component {
                     <span>{receive_address.address}</span>
                 );
             }
-            var withdraw_memo_prefix = "";
         }
 
         if (
