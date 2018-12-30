@@ -1003,7 +1003,7 @@ class WithdrawModalNew extends React.Component {
                         ) : null}
 
                         {/*GATEWAY SELECTION*/}
-                        <div style={{marginBottom: "1em"}}>
+                        <div style={{marginBottom: "1em"}} className="hide">
                             {selectedGateway
                                 ? gatewaySelector.call(this, {
                                       selectedGateway,
@@ -1097,8 +1097,8 @@ class WithdrawModalNew extends React.Component {
                                         className="error-msg"
                                         style={{
                                             position: "absolute",
-                                            marginTop: -12,
-                                            right: 0,
+                                            marginTop: -24,
+                                            right: 5,
                                             textTransform: "uppercase",
                                             fontSize: 13
                                         }}
@@ -1120,8 +1120,8 @@ class WithdrawModalNew extends React.Component {
                                         className="error-msg"
                                         style={{
                                             position: "absolute",
-                                            marginTop: -12,
-                                            right: 0,
+                                            marginTop: -24,
+                                            right: 5,
                                             textTransform: "uppercase",
                                             fontSize: 13
                                         }}
@@ -1142,8 +1142,8 @@ class WithdrawModalNew extends React.Component {
                                         className="error-msg"
                                         style={{
                                             position: "absolute",
-                                            marginTop: -12,
-                                            right: 0,
+                                            marginTop: -24,
+                                            right: 5,
                                             textTransform: "uppercase",
                                             fontSize: 13
                                         }}
