@@ -202,17 +202,17 @@ class DepositModalContent extends DecimalChecker {
     }
 
     addDepositAddress(depositAddress) {
-        let {selectedGateway, selectedAsset} = this.state;
-        let {account} = this.props;
+        // let {selectedGateway, selectedAsset} = this.state;
+        // let {account} = this.props;
 
-        this.deposit_address_cache.cacheInputAddress(
-            selectedGateway.toLowerCase(),
-            account,
-            selectedAsset.toLowerCase(),
-            selectedGateway.toLowerCase() + "." + selectedAsset.toLowerCase(),
-            depositAddress.address,
-            depositAddress.memo
-        );
+        // this.deposit_address_cache.cacheInputAddress(
+        //     selectedGateway.toLowerCase(),
+        //     account,
+        //     selectedAsset.toLowerCase(),
+        //     selectedGateway.toLowerCase() + "." + selectedAsset.toLowerCase(),
+        //     depositAddress.address,
+        //     depositAddress.memo
+        // );
         this.setState({
             depositAddress,
             fetchingAddress: false
