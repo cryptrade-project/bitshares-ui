@@ -16,6 +16,7 @@ import Footer from "./components/Layout/Footer";
 import Deprecate from "./Deprecate";
 import Incognito from "./components/Layout/Incognito";
 import {isIncognito} from "feature_detect";
+import CryptradeActions from "actions/CryptradeActions";
 import {updateGatewayBackers} from "common/gatewayUtils";
 import titleUtils from "common/titleUtils";
 import {BodyClassName, Notification} from "bitshares-ui-style-guide";
@@ -155,6 +156,10 @@ class App extends React.Component {
             duration: DEFAULT_NOTIFICATION_DURATION,
             top: 90
         });
+    }
+
+    componentWillMount() {
+        CryptradeActions.getMarkets.defer();
     }
 
     componentWillUnmount() {
