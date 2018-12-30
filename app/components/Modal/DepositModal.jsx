@@ -291,7 +291,7 @@ class DepositModalContent extends DecimalChecker {
                         </div>
                     </div>
 
-                    {usingGateway && selectedAsset
+                    {usingGateway && selectedAsset && false
                         ? gatewaySelector.call(this, {
                               selectedGateway,
                               gatewayStatus,
