@@ -2668,7 +2668,10 @@ class Exchange extends React.Component {
                 let stop = false;
                 if (!stop && thisTabsId == panelTabs[thisPanelName]) {
                     panelTabsActive[thisTabsId] = !panelTabsActive[thisTabsId]
-                        ? thisPanelName
+                        ? panelTabs["my_history"] === panelTabs["history"] &&
+                          panelTabs["history"] === parseInt(thisTabsId)
+                            ? "history"
+                            : thisPanelName
                         : panelTabsActive[thisTabsId];
                     stop = true;
                 }
