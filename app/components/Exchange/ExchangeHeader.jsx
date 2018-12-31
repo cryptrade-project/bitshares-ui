@@ -12,6 +12,7 @@ import {ChainStore} from "bitsharesjs";
 import ExchangeHeaderCollateral from "./ExchangeHeaderCollateral";
 import {Icon as AntIcon} from "bitshares-ui-style-guide";
 import {Asset, Price} from "common/MarketClasses";
+import utils from "../../lib/common/utils";
 
 export default class ExchangeHeader extends React.Component {
     constructor(props) {
@@ -33,6 +34,23 @@ export default class ExchangeHeader extends React.Component {
     shouldComponentUpdate(nextProps) {
         if (!nextProps.marketReady) return false;
         return true;
+    }
+
+    componentDidUpdate() {
+        this._updateTitle();
+    }
+
+    _updateTitle() {
+        const {quoteAsset, baseAsset, latestPrice} = this.props;
+
+        if (latestPrice && this._quoteName && this._baseName) {
+            document.title =
+                utils.price_text(latestPrice, quoteAsset, baseAsset) +
+                " " +
+                this._quoteName +
+                " / " +
+                this._baseName;
+        }
     }
 
     _addMarket(quote, base) {
@@ -252,6 +270,9 @@ export default class ExchangeHeader extends React.Component {
                                             name={quoteSymbol}
                                             replace={true}
                                             noTip
+                                            onRenderedName={name => {
+                                                this._quoteName = name;
+                                            }}
                                         />
                                     </span>
                                     <span style={{padding: "0 5px"}}>/</span>
@@ -276,6 +297,9 @@ export default class ExchangeHeader extends React.Component {
                                             name={baseSymbol}
                                             replace={true}
                                             noTip
+                                            onRenderedName={name => {
+                                                this._baseName = name;
+                                            }}
                                         />
                                     </span>
                                 </div>
