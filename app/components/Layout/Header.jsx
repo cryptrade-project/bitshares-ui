@@ -31,6 +31,7 @@ import AccountBrowsingMode from "../Account/AccountBrowsingMode";
 import {setLocalStorageType, isPersistantType} from "lib/common/localStorage";
 
 import {getLogo} from "branding";
+import {getCryptradeDefaultMarket} from "../../branding";
 var logo = getLogo();
 
 // const FlagImage = ({flag, width = 20, height = 20}) => {
@@ -427,7 +428,7 @@ class Header extends React.Component {
 
         let tradeUrl = this.props.lastMarket
             ? `/market/${this.props.lastMarket}`
-            : "/market/USD_BTS";
+            : `/market/${getCryptradeDefaultMarket().id}`;
 
         // Account selector: Only active inside the exchange
         let account_display_name, accountsList;

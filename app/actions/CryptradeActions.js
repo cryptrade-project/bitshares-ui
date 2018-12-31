@@ -1,6 +1,6 @@
 import alt from "alt-instance";
 import {cryptradeAPIs} from "../api/apiConfig";
-import {getCryptradeDefaultMarkets} from "../branding";
+import {getCryptradeDefaultMarket} from "../branding";
 
 const API_MARKET_URL = cryptradeAPIs.BASE + cryptradeAPIs.MARKETS;
 
@@ -19,7 +19,7 @@ class CryptradeActions {
                     return; // we just fetched the results, no need to update...
                 }
             } else {
-                dispatch(getCryptradeDefaultMarkets());
+                dispatch([getCryptradeDefaultMarket()]);
             }
 
             markets.lastFetched = new Date();

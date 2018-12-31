@@ -358,17 +358,15 @@ export function getCryptradeRealAssetNames() {
 }
 
 /**
- * Get default markets of Cryptrade
- * @returns {{quote: string, id: string, base: string}[]}
+ * Get default market of Cryptrade
+ * @returns {{quote: string, id: string, base: string}}
  */
-export function getCryptradeDefaultMarkets() {
-    return [
-        {
-            id: "CRYPTRADE.BCO_CRYPTRADE.BTC",
-            quote: "CRYPTRADE.BCO",
-            base: "CRYPTRADE.BTC"
-        }
-    ];
+export function getCryptradeDefaultMarket() {
+    return {
+        id: "CRYPTRADE.CRCO_CRYPTRADE.BTC",
+        quote: "CRYPTRADE.CRCO",
+        base: "CRYPTRADE.BTC"
+    };
 }
 
 /**
