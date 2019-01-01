@@ -40,7 +40,7 @@ export default class AssetImage extends React.Component {
     }
 
     render() {
-        const {style, lazy} = this.props;
+        const {style, lazy, className} = this.props;
         const {src} = this.state;
 
         return src ? (
@@ -49,6 +49,7 @@ export default class AssetImage extends React.Component {
                 style={style || {}}
                 src={src}
                 lazy={lazy === true}
+                className={className}
             />
         ) : (
             <span />

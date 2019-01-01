@@ -10,6 +10,7 @@ import {Tabs, Tab} from "../Utility/Tabs";
 import {StarredMarkets, FeaturedMarkets} from "./Markets";
 import {getPossibleGatewayPrefixes} from "common/gateways";
 import {getCryptradeStaticURL} from "../../branding";
+import AssetImage from "../Utility/AssetImage";
 
 class DashboardPage extends React.Component {
     render() {
@@ -54,13 +55,13 @@ class DashboardPage extends React.Component {
                                     {preferredBases.sort().map(q => {
                                         let title = (
                                             <span>
-                                                <img
-                                                    className="column-hide-small"
+                                                <AssetImage
+                                                    name={q.toLowerCase()}
                                                     style={{
                                                         maxWidth: 30,
                                                         marginRight: 5
                                                     }}
-                                                    src={`${getCryptradeStaticURL()}/asset-symbols/${q.toLowerCase()}.png`}
+                                                    className="column-hide-small"
                                                 />
                                                 &nbsp;
                                                 {q}
