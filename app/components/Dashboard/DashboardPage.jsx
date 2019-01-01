@@ -9,6 +9,7 @@ import SettingsStore from "stores/SettingsStore";
 import {Tabs, Tab} from "../Utility/Tabs";
 import {StarredMarkets, FeaturedMarkets} from "./Markets";
 import {getPossibleGatewayPrefixes} from "common/gateways";
+import {getCryptradeStaticURL} from "../../branding";
 
 class DashboardPage extends React.Component {
     render() {
@@ -59,12 +60,7 @@ class DashboardPage extends React.Component {
                                                         maxWidth: 30,
                                                         marginRight: 5
                                                     }}
-                                                    src={`${__BASE_URL__}asset-symbols/${q
-                                                        .replace(
-                                                            /^BTC/,
-                                                            "OPEN.BTC"
-                                                        )
-                                                        .toLowerCase()}.png`}
+                                                    src={`${getCryptradeStaticURL()}/asset-symbols/${q.toLowerCase()}.png`}
                                                 />
                                                 &nbsp;
                                                 {q}
