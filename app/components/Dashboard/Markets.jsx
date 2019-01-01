@@ -13,7 +13,7 @@ class StarredMarkets extends React.Component {
         return (
             <MarketsTable
                 markets={this.props.starredMarkets}
-                forceDirection={true}
+                showFlip={false}
                 isFavorite
             />
         );

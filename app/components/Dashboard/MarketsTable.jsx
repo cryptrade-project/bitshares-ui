@@ -47,7 +47,7 @@ class MarketsTable extends React.Component {
 
     update(nextProps = null) {
         let props = nextProps || this.props;
-        let showFlip = props.forceDirection;
+        let showFlip = props.showFlip;
 
         if (props.markets && props.markets.size > 0) {
             let markets = props.markets
@@ -60,7 +60,7 @@ class MarketsTable extends React.Component {
 
                     return {
                         key: marketName,
-                        inverted: undefined,
+                        inverted: null,
                         quote: market.quote,
                         base: market.base,
                         isHidden: props.hiddenMarkets.includes(marketName),
