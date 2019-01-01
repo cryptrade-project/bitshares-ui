@@ -125,6 +125,12 @@ class MarketsTable extends React.Component {
 
                 switch (sortBy) {
                     case "price":
+                        if (a.marketStats.price === undefined) {
+                            return 1;
+                        } else if (b.marketStats.price === undefined) {
+                            return -1;
+                        }
+
                         if (a.marketStats.price && b.marketStats.price) {
                             if (sortDirection) {
                                 return (
