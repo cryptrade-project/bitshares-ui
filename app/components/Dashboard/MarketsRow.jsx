@@ -158,22 +158,15 @@ class MarketsRow extends React.Component {
                         />
                         <AssetName dataPlace="top" name={quote.get("symbol")} />
                         &nbsp;
-                        {this.props.isFavorite ? (
-                            <span>
-                                :&nbsp;
-                                <AssetName
-                                    dataPlace="top"
-                                    name={base.get("symbol")}
-                                />
-                            </span>
-                        ) : null}
+                        <span>
+                            :&nbsp;
+                            <AssetName
+                                dataPlace="top"
+                                name={base.get("symbol")}
+                            />
+                        </span>
                     </Link>
                 </td>
-                {this.props.isFavorite ? null : (
-                    <td style={{textAlign: "right"}}>
-                        <AssetName noTip name={base.get("symbol")} />
-                    </td>
-                )}
                 <td className="column-hide-small" style={{textAlign: "right"}}>
                     {marketStats && marketStats.price
                         ? utils.price_text(
