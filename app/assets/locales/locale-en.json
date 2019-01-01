@@ -518,7 +518,7 @@
         "market": "Market",
         "market_depth": "Market Depth",
         "market_frozen": "The owner of %(asset)s has disabled trading in this market.",
-        "market_name": "My Markets",
+        "market_name": "Markets",
         "market_picker": {
             "filter_by_issuer": "Filter by issuer",
             "find_by_asset": "Find by asset",
