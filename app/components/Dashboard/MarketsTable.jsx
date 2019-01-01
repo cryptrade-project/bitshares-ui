@@ -49,7 +49,7 @@ class MarketsTable extends React.Component {
         let props = nextProps || this.props;
         let showFlip = props.showFlip;
 
-        if (props.markets && props.markets.size > 0) {
+        if (props.markets && props.markets.size >= 0) {
             let markets = props.markets
                 .toArray()
                 .map(market => {
