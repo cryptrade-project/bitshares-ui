@@ -1084,7 +1084,7 @@ class MyMarkets extends React.Component {
                             key="quote_edit"
                             style={{textTransform: "uppercase"}}
                             onClick={this.showQuoteModal}
-                            className="mymarkets-tab"
+                            className="mymarkets-tab hide"
                         >
                             &nbsp;+&nbsp;
                         </li>
