@@ -7,9 +7,8 @@ import AccountStore from "stores/AccountStore";
 import SettingsStore from "stores/SettingsStore";
 
 import {Tabs, Tab} from "../Utility/Tabs";
-import {StarredMarkets, FeaturedMarkets} from "./Markets";
+import {StarredMarkets, CryptradeMarkets} from "./Markets";
 import {getPossibleGatewayPrefixes} from "common/gateways";
-import {getCryptradeStaticURL} from "../../branding";
 import AssetImage from "../Utility/AssetImage";
 
 class DashboardPage extends React.Component {
@@ -70,7 +69,7 @@ class DashboardPage extends React.Component {
 
                                         return (
                                             <Tab key={q} title={title}>
-                                                <FeaturedMarkets
+                                                <CryptradeMarkets
                                                     quotes={[q].concat(
                                                         getPossibleGatewayPrefixes(
                                                             [q]
