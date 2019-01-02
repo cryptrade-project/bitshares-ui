@@ -122,15 +122,17 @@ export default class AssetUtils {
         let namespace = getCryptradeAssetNamespace();
         if (
             symbol &&
-            symbol.indexOf(namespace) === -1 &&
+            symbol.toUpperCase().indexOf(namespace) === -1 &&
             symbol.indexOf(".") === -1
         ) {
-            return ["BTS", "CNY", "EUR", "USD"].indexOf(symbol) === -1
-                ? namespace + symbol
-                : symbol;
+            symbol =
+                ["BTS", "CNY", "EUR", "USD"].indexOf(symbol.toUpperCase()) ===
+                -1
+                    ? namespace + symbol
+                    : symbol;
         }
 
-        return symbol;
+        return symbol.toUpperCase();
     }
 
     static getTradingPairInfoMessages(asset, deposit) {
