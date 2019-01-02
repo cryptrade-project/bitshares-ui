@@ -66,7 +66,15 @@ export function getDefaultLogin() {
  */
 export function getUnits(chainId = "4018d784") {
     if (chainId === "4018d784")
-        return ["BTS", "USD", "CNY", "BTC", "EUR", "GBP"];
+        return [
+            "BTS",
+            "CRYPTRADE.BTC",
+            "CRYPTRADE.CRCO",
+            "USD",
+            "CNY",
+            "EUR",
+            "GBP"
+        ];
     else if (chainId === "39f5e2ed") return ["TEST"];
 }
 
