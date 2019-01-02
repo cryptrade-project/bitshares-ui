@@ -119,6 +119,10 @@ class AccountOverview extends React.Component {
         const preferredUnit =
             settings.get("unit") || this.props.core_asset.get("symbol");
         const showAssetPercent = settings.get("showAssetPercent", false);
+        const showAdvancedFeatures = settings.get(
+            "showAdvancedFeatures",
+            false
+        );
 
         return (
             <tr>
@@ -209,12 +213,16 @@ class AccountOverview extends React.Component {
                 <th>
                     <Translate content="exchange.borrow_short" />
                 </th>
-                <th>
-                    <Translate content="account.settle" />
-                </th>
-                <th className="column-hide-small">
-                    <Translate content="modal.reserve.submit" />
-                </th>
+                {showAdvancedFeatures ? (
+                    <th>
+                        <Translate content="account.settle" />
+                    </th>
+                ) : null}
+                {showAdvancedFeatures ? (
+                    <th className="column-hide-small">
+                        <Translate content="modal.reserve.submit" />
+                    </th>
+                ) : null}
                 <th className="column-hide-small">
                     <Translate
                         content={
@@ -238,6 +246,11 @@ class AccountOverview extends React.Component {
 
         const preferredUnit =
             settings.get("unit") || this.props.core_asset.get("symbol");
+
+        const showAdvancedFeatures = settings.get(
+            "showAdvancedFeatures",
+            false
+        );
 
         let call_orders = [],
             collateral = {},
@@ -424,6 +437,7 @@ class AccountOverview extends React.Component {
                 balances={this.props.balances}
                 header={this.getHeader()}
                 extraRow={includedPortfolioBalance}
+                showAdvancedFeatures={showAdvancedFeatures}
             />
         );
 
