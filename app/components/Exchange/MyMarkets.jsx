@@ -879,15 +879,6 @@ class MyMarkets extends React.Component {
                         >
                             <Translate content="exchange.market_name" />
                         </div>
-                        <div
-                            className={allClass}
-                            onClick={this._changeTab.bind(this, "find-market")}
-                            data-intro={translator.translate(
-                                "walkthrough.find_markets_tab"
-                            )}
-                        >
-                            <Translate content="exchange.more" />
-                        </div>
                     </div>
                 ) : null}
                 {this.props.noHeader || this.props.tabHeader ? null : (

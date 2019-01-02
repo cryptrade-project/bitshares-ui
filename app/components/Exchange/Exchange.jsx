@@ -2795,10 +2795,6 @@ class Exchange extends React.Component {
                             tab={translator.translate("exchange.market_name")}
                             key="my-market"
                         />
-                        <Tabs.TabPane
-                            tab={translator.translate("exchange.more")}
-                            key="find-market"
-                        />
                     </Tabs>
                     {myMarkets}
                 </div>
@@ -2877,10 +2873,6 @@ class Exchange extends React.Component {
                                 )}
                                 key="my-market"
                             />
-                            <Tabs.TabPane
-                                tab={translator.translate("exchange.more")}
-                                key="find-market"
-                            />
                         </Tabs>
                         {myMarkets}
                     </Collapse.Panel>
@@ -2951,10 +2943,6 @@ class Exchange extends React.Component {
                                     "exchange.market_name"
                                 )}
                                 key="my-market"
-                            />
-                            <Tabs.TabPane
-                                tab={translator.translate("exchange.more")}
-                                key="find-market"
                             />
                         </Tabs>
                     </div>
