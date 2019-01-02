@@ -2691,7 +2691,11 @@ class Exchange extends React.Component {
                 <div
                     key={`actionCard_${actionCardIndex++}`}
                     className={cnames(
-                        verticalOrderBook ? "xlarge-order-2" : "xlarge-order-2",
+                        verticalOrderBook
+                            ? "xlarge-order-2"
+                            : centerContainerWidth > 1200
+                                ? "xlarge-order-2"
+                                : "",
                         centerContainerWidth > 1200
                             ? groupTabsCount == 1
                                 ? "medium-12 xlarge-4"
