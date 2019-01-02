@@ -7,6 +7,8 @@ import SettingsStore from "stores/SettingsStore";
 // import SettingsActions from "actions/SettingsActions";
 import MarketsStore from "stores/MarketsStore";
 import MarketsTable from "./MarketsTable";
+import CryptradeStore from "../../stores/CryptradeStore";
+import {getCryptradeAssetNamespace} from "../../branding";
 
 class StarredMarkets extends React.Component {
     render() {
@@ -138,27 +140,11 @@ class CryptradeMarkets extends React.Component {
     constructor() {
         super();
 
-        let chainID = Apis.instance().chain_id;
-        if (chainID) chainID = chainID.substr(0, 8);
-
         this.state = {
-            chainID,
             markets: []
         };
 
-        this._getMarkets = this._getMarkets.bind(this);
         this.update = this.update.bind(this);
-    }
-
-    _getMarkets(state = this.state, props = this.props) {
-        const {chainID} = state;
-
-        if (chainID === "4018d784") {
-            return props.markets;
-        } else {
-            // assume testnet
-            return [["TEST", "PEG.FAKEUSD"], ["TEST", "BTWTY"]];
-        }
     }
 
     shouldComponentUpdate(nextProps) {
@@ -174,23 +160,21 @@ class CryptradeMarkets extends React.Component {
     }
 
     update(props = this.props) {
-        let markets = this._getMarkets(this.state, props);
+        let markets = props.markets;
+        let quote = props.quote;
 
-        markets = markets.filter(market => {
-            /* Only use markets corresponding to the current tab */
-            return props.quotes[0] === market.base;
-        });
+        if (quote !== undefined) {
+            quote =
+                ["BTS", "CNY", "EUR", "USD"].indexOf(quote) === -1
+                    ? getCryptradeAssetNamespace() + quote
+                    : quote;
 
-        /* Add the possible gateway assets */
-        for (var i = 1; i < props.quotes.length; i++) {
-            markets.forEach(m => {
-                let obj = {quote: m.quote, base: props.quotes[i]};
-                let marketKey = `${obj.quote}_${obj.base}`;
-                if (obj.quote !== obj.base && !markets.has(marketKey)) {
-                    markets = markets.set(marketKey, obj);
-                }
+            markets = markets.filter(market => {
+                /* Only use markets corresponding to the current tab */
+                return quote === market.base;
             });
         }
+
         this.setState({markets});
     }
 
@@ -209,21 +193,11 @@ CryptradeMarkets = connect(
     CryptradeMarkets,
     {
         listenTo() {
-            return [MarketsStore, SettingsStore];
+            return [CryptradeStore];
         },
         getProps() {
-            let userMarkets = SettingsStore.getState().userMarkets;
-            let defaultMarkets = SettingsStore.getState().defaultMarkets;
-
-            if (userMarkets.size) {
-                userMarkets.forEach((market, key) => {
-                    if (!defaultMarkets.has(key))
-                        defaultMarkets = defaultMarkets.set(key, market);
-                });
-            }
-
             return {
-                markets: defaultMarkets
+                markets: CryptradeStore.getState().markets
             };
         }
     }
