@@ -572,44 +572,6 @@ class AccountOverview extends React.Component {
                             </Tab>
 
                             <Tab
-                                title="account.collaterals"
-                                subText={
-                                    <span
-                                        className={
-                                            this.state.globalMarginStatus
-                                        }
-                                    >
-                                        {marginValue}
-                                    </span>
-                                }
-                            >
-                                <div className="content-block">
-                                    <div className="generic-bordered-box">
-                                        <MarginPositions
-                                            preferredUnit={preferredUnit}
-                                            className="dashboard-table"
-                                            callOrders={call_orders}
-                                            account={account}
-                                        >
-                                            <tr className="total-value">
-                                                <td>{totalValueText}</td>
-                                                <td />
-                                                <td>{debtValue}</td>
-                                                <td className="column-hide-medium">
-                                                    {collateralValue}
-                                                </td>
-                                                <td />
-                                                <td>{marginValue}</td>
-                                                <td className="column-hide-small" />
-                                                <td className="column-hide-small" />
-                                                <td colSpan="4" />
-                                            </tr>
-                                        </MarginPositions>
-                                    </div>
-                                </div>
-                            </Tab>
-
-                            <Tab
                                 title="account.activity"
                                 subText={hiddenSubText}
                             >
