@@ -110,7 +110,12 @@ export default class AssetUtils {
 
     static isCryptradeIssuedAsset(asset) {
         if (!asset) return false;
-        return asset.get("symbol").indexOf(getCryptradeAssetNamespace()) === 0;
+        return (
+            asset
+                .get("symbol")
+                .toUpperCase()
+                .indexOf(getCryptradeAssetNamespace()) === 0
+        );
     }
 
     static addCryptradeNameSpace(symbol) {
