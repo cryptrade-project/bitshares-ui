@@ -2691,7 +2691,11 @@ class Exchange extends React.Component {
                 <div
                     key={`actionCard_${actionCardIndex++}`}
                     className={cnames(
-                        verticalOrderBook ? "xlarge-order-2" : "xlarge-order-2",
+                        verticalOrderBook
+                            ? "xlarge-order-2"
+                            : centerContainerWidth > 1200
+                                ? "xlarge-order-2"
+                                : "",
                         centerContainerWidth > 1200
                             ? groupTabsCount == 1
                                 ? "medium-12 xlarge-4"
@@ -2795,10 +2799,6 @@ class Exchange extends React.Component {
                             tab={translator.translate("exchange.market_name")}
                             key="my-market"
                         />
-                        <Tabs.TabPane
-                            tab={translator.translate("exchange.more")}
-                            key="find-market"
-                        />
                     </Tabs>
                     {myMarkets}
                 </div>
@@ -2877,10 +2877,6 @@ class Exchange extends React.Component {
                                 )}
                                 key="my-market"
                             />
-                            <Tabs.TabPane
-                                tab={translator.translate("exchange.more")}
-                                key="find-market"
-                            />
                         </Tabs>
                         {myMarkets}
                     </Collapse.Panel>
@@ -2951,10 +2947,6 @@ class Exchange extends React.Component {
                                     "exchange.market_name"
                                 )}
                                 key="my-market"
-                            />
-                            <Tabs.TabPane
-                                tab={translator.translate("exchange.more")}
-                                key="find-market"
                             />
                         </Tabs>
                     </div>

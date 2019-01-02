@@ -23,6 +23,8 @@ import debounceRender from "react-debounce-render";
 import ZfApi from "react-foundation-apps/src/utils/foundation-api";
 import {getPossibleGatewayPrefixes, gatewayPrefixes} from "common/gateways";
 import QuoteSelectionModal from "./QuoteSelectionModal";
+import CryptradeStore from "../../stores/CryptradeStore";
+import asset_utils from "../../lib/common/asset_utils";
 
 class MarketGroup extends React.Component {
     static defaultProps = {
@@ -679,7 +681,11 @@ class MyMarkets extends React.Component {
                         /* Return filtered markets if a filter is input */
                         const ID = a.quote + "_" + a.base;
                         if (!!myMarketFilter) {
-                            return ID.indexOf(myMarketFilter) !== -1;
+                            const cleanID =
+                                asset_utils.removeCryptradeNameSpace(a.quote) +
+                                "_" +
+                                asset_utils.removeCryptradeNameSpace(a.base);
+                            return cleanID.indexOf(myMarketFilter) !== -1;
                         }
                         /* Return only starred markets if that option is checked */
                         if (onlyStars && !starredMarkets.has(ID)) {
@@ -691,7 +697,10 @@ class MyMarkets extends React.Component {
                 })
                 .map(market => {
                     let marketID = market.quote + "_" + market.base;
-                    if (matchBases.indexOf(market.base) !== -1) {
+                    let cleanMarketBase = asset_utils.removeCryptradeNameSpace(
+                        market.base
+                    );
+                    if (matchBases.indexOf(cleanMarketBase) !== -1) {
                         if (!baseGroups[base]) {
                             baseGroups[base] = [];
                         }
@@ -703,10 +712,7 @@ class MyMarkets extends React.Component {
                         if (!baseGroups[base].find(m => m.id === marketID))
                             baseGroups[base].push(marketObject);
                         return null;
-                    } else if (
-                        !preferredBases.includes(market.base) &&
-                        possibleGatewayAssets.indexOf(market.base) === -1
-                    ) {
+                    } else if (!preferredBases.includes(cleanMarketBase)) {
                         // console.log("Adding to other markets:", base, market.base, preferredBases.toJS())
                         return {
                             id: marketID,
@@ -735,35 +741,35 @@ class MyMarkets extends React.Component {
             ));
 
             /* Check for possible gateway versions of the asset */
-            gatewayPrefixes.forEach(prefix => {
-                let possibleGatewayAssetName = `${prefix}.${currentBase}`;
-                let gatewayAsset = ChainStore.getAsset(
-                    possibleGatewayAssetName
-                );
-                /* If the gateway offers an asset for this base, add it to the list */
-                if (!!gatewayAsset) {
-                    let gatewayMarkets = activeMarkets
-                        .map(m => {
-                            if (m.quote === m.base) return null;
-                            let newID = `${
-                                m.quote
-                            }_${possibleGatewayAssetName}`;
-                            if (activeMarkets.has(newID)) return null;
-                            return {
-                                base: possibleGatewayAssetName,
-                                quote: m.quote
-                            };
-                        }, {})
-                        .filter(m => !!m);
-                    ({otherMarkets, baseGroups} = filterAndSeparateMarkets(
-                        currentBase,
-                        [currentBase, possibleGatewayAssetName],
-                        gatewayMarkets,
-                        baseGroups,
-                        otherMarkets
-                    ));
-                }
-            });
+            // gatewayPrefixes.forEach(prefix => {
+            //     let possibleGatewayAssetName = `${prefix}.${currentBase}`;
+            //     let gatewayAsset = ChainStore.getAsset(
+            //         possibleGatewayAssetName
+            //     );
+            //     /* If the gateway offers an asset for this base, add it to the list */
+            //     if (!!gatewayAsset) {
+            //         let gatewayMarkets = activeMarkets
+            //             .map(m => {
+            //                 if (m.quote === m.base) return null;
+            //                 let newID = `${
+            //                     m.quote
+            //                 }_${possibleGatewayAssetName}`;
+            //                 if (activeMarkets.has(newID)) return null;
+            //                 return {
+            //                     base: possibleGatewayAssetName,
+            //                     quote: m.quote
+            //                 };
+            //             }, {})
+            //             .filter(m => !!m);
+            //         ({otherMarkets, baseGroups} = filterAndSeparateMarkets(
+            //             currentBase,
+            //             [currentBase, possibleGatewayAssetName],
+            //             gatewayMarkets,
+            //             baseGroups,
+            //             otherMarkets
+            //         ));
+            //     }
+            // });
         }
 
         return {baseGroups, otherMarkets};
@@ -878,15 +884,6 @@ class MyMarkets extends React.Component {
                             )}
                         >
                             <Translate content="exchange.market_name" />
-                        </div>
-                        <div
-                            className={allClass}
-                            onClick={this._changeTab.bind(this, "find-market")}
-                            data-intro={translator.translate(
-                                "walkthrough.find_markets_tab"
-                            )}
-                        >
-                            <Translate content="exchange.more" />
                         </div>
                     </div>
                 ) : null}
@@ -1093,7 +1090,7 @@ class MyMarkets extends React.Component {
                             key="quote_edit"
                             style={{textTransform: "uppercase"}}
                             onClick={this.showQuoteModal}
-                            className="mymarkets-tab"
+                            className="mymarkets-tab hide"
                         >
                             &nbsp;+&nbsp;
                         </li>
@@ -1117,7 +1114,7 @@ class MyMarkets extends React.Component {
                                   </li>
                               );
                           })}
-                    {myMarketTab && hasOthers ? (
+                    {myMarketTab ? (
                         <li
                             key={"others"}
                             style={{textTransform: "uppercase"}}
@@ -1228,7 +1225,7 @@ export default connect(
     MyMarketsWrapper,
     {
         listenTo() {
-            return [SettingsStore, MarketsStore, AssetStore];
+            return [SettingsStore, MarketsStore, AssetStore, CryptradeStore];
         },
         getProps() {
             return {
@@ -1237,7 +1234,7 @@ export default connect(
                     "onlyLiquid",
                     true
                 ),
-                defaultMarkets: SettingsStore.getState().defaultMarkets,
+                defaultMarkets: CryptradeStore.getState().markets,
                 viewSettings: SettingsStore.getState().viewSettings,
                 preferredBases: SettingsStore.getState().preferredBases,
                 marketStats: MarketsStore.getState().allMarketStats,

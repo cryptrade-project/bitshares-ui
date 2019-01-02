@@ -110,20 +110,38 @@ export default class AssetUtils {
 
     static isCryptradeIssuedAsset(asset) {
         if (!asset) return false;
-        return asset.get("symbol").indexOf(getCryptradeAssetNamespace()) === 0;
+        return (
+            asset
+                .get("symbol")
+                .toUpperCase()
+                .indexOf(getCryptradeAssetNamespace()) === 0
+        );
+    }
+
+    static removeCryptradeNameSpace(symbol) {
+        let namespace = getCryptradeAssetNamespace();
+        if (symbol && symbol.toUpperCase().indexOf(namespace) === 0) {
+            return symbol.toUpperCase().replace(namespace, "");
+        }
+
+        return symbol;
     }
 
     static addCryptradeNameSpace(symbol) {
         let namespace = getCryptradeAssetNamespace();
         if (
             symbol &&
-            symbol.indexOf(namespace) === -1 &&
+            symbol.toUpperCase().indexOf(namespace) === -1 &&
             symbol.indexOf(".") === -1
         ) {
-            return namespace + symbol;
+            symbol =
+                ["BTS", "CNY", "EUR", "USD"].indexOf(symbol.toUpperCase()) ===
+                -1
+                    ? namespace + symbol
+                    : symbol;
         }
 
-        return symbol;
+        return symbol.toUpperCase();
     }
 
     static getTradingPairInfoMessages(asset, deposit) {

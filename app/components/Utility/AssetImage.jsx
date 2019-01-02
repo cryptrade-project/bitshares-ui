@@ -1,9 +1,11 @@
 import React from "react";
+import {connect} from "alt-react";
 import LazyImage from "./LazyImage";
+import CryptradeStore from "../../stores/CryptradeStore";
 import PropTypes from "prop-types";
 import {getCryptradeStaticURL} from "../../branding";
 
-export default class AssetImage extends React.Component {
+class AssetImage extends React.Component {
     static propTypes = {
         name: PropTypes.string
     };
@@ -40,7 +42,7 @@ export default class AssetImage extends React.Component {
     }
 
     render() {
-        const {style, lazy} = this.props;
+        const {style, lazy, className} = this.props;
         const {src} = this.state;
 
         return src ? (
@@ -49,9 +51,19 @@ export default class AssetImage extends React.Component {
                 style={style || {}}
                 src={src}
                 lazy={lazy === true}
+                className={className}
             />
         ) : (
             <span />
         );
     }
 }
+
+export default connect(
+    AssetImage,
+    {
+        listenTo() {
+            return [CryptradeStore];
+        }
+    }
+);

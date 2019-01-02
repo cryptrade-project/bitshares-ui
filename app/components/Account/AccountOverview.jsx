@@ -119,6 +119,10 @@ class AccountOverview extends React.Component {
         const preferredUnit =
             settings.get("unit") || this.props.core_asset.get("symbol");
         const showAssetPercent = settings.get("showAssetPercent", false);
+        const showAdvancedFeatures = settings.get(
+            "showAdvancedFeatures",
+            false
+        );
 
         return (
             <tr>
@@ -209,12 +213,16 @@ class AccountOverview extends React.Component {
                 <th>
                     <Translate content="exchange.borrow_short" />
                 </th>
-                <th>
-                    <Translate content="account.settle" />
-                </th>
-                <th className="column-hide-small">
-                    <Translate content="modal.reserve.submit" />
-                </th>
+                {showAdvancedFeatures ? (
+                    <th>
+                        <Translate content="account.settle" />
+                    </th>
+                ) : null}
+                {showAdvancedFeatures ? (
+                    <th className="column-hide-small">
+                        <Translate content="modal.reserve.submit" />
+                    </th>
+                ) : null}
                 <th className="column-hide-small">
                     <Translate
                         content={
@@ -238,6 +246,11 @@ class AccountOverview extends React.Component {
 
         const preferredUnit =
             settings.get("unit") || this.props.core_asset.get("symbol");
+
+        const showAdvancedFeatures = settings.get(
+            "showAdvancedFeatures",
+            false
+        );
 
         let call_orders = [],
             collateral = {},
@@ -424,6 +437,7 @@ class AccountOverview extends React.Component {
                 balances={this.props.balances}
                 header={this.getHeader()}
                 extraRow={includedPortfolioBalance}
+                showAdvancedFeatures={showAdvancedFeatures}
             />
         );
 
@@ -569,44 +583,6 @@ class AccountOverview extends React.Component {
                                         {this.props.isMyAccount ? <td /> : null}
                                     </tr>
                                 </AccountOrders>
-                            </Tab>
-
-                            <Tab
-                                title="account.collaterals"
-                                subText={
-                                    <span
-                                        className={
-                                            this.state.globalMarginStatus
-                                        }
-                                    >
-                                        {marginValue}
-                                    </span>
-                                }
-                            >
-                                <div className="content-block">
-                                    <div className="generic-bordered-box">
-                                        <MarginPositions
-                                            preferredUnit={preferredUnit}
-                                            className="dashboard-table"
-                                            callOrders={call_orders}
-                                            account={account}
-                                        >
-                                            <tr className="total-value">
-                                                <td>{totalValueText}</td>
-                                                <td />
-                                                <td>{debtValue}</td>
-                                                <td className="column-hide-medium">
-                                                    {collateralValue}
-                                                </td>
-                                                <td />
-                                                <td>{marginValue}</td>
-                                                <td className="column-hide-small" />
-                                                <td className="column-hide-small" />
-                                                <td colSpan="4" />
-                                            </tr>
-                                        </MarginPositions>
-                                    </div>
-                                </div>
                             </Tab>
 
                             <Tab

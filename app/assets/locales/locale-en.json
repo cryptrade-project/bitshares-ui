@@ -2196,6 +2196,9 @@
         "account": {
             "intro_text_title": "Welcome to Cryptrade"
         },
+        "dashboard": {
+            "all_markets": "All Markets"
+        },
         "gateway": {
             "required_confirmations": "Required confirmations",
             "required_confirmations_warning": "Required Confirmations: %(required_confirmations)s",

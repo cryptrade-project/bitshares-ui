@@ -306,6 +306,7 @@ class AccountOrders extends React.Component {
                             settings={this.props.settings}
                             dashboard
                             isMyAccount={this.props.isMyAccount}
+                            leftAlign={{textAlign: "left"}}
                         />
                     }
                     rows={tables}

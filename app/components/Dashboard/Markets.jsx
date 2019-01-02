@@ -7,13 +7,16 @@ import SettingsStore from "stores/SettingsStore";
 // import SettingsActions from "actions/SettingsActions";
 import MarketsStore from "stores/MarketsStore";
 import MarketsTable from "./MarketsTable";
+import CryptradeStore from "../../stores/CryptradeStore";
+import {getCryptradeAssetNamespace} from "../../branding";
+import asset_utils from "../../lib/common/asset_utils";
 
 class StarredMarkets extends React.Component {
     render() {
         return (
             <MarketsTable
                 markets={this.props.starredMarkets}
-                forceDirection={true}
+                showFlip={false}
                 isFavorite
             />
         );
@@ -134,4 +137,68 @@ class TopMarkets extends React.Component {
     }
 }
 
-export {StarredMarkets, FeaturedMarkets, TopMarkets};
+class CryptradeMarkets extends React.Component {
+    constructor() {
+        super();
+
+        this.state = {
+            markets: []
+        };
+
+        this.update = this.update.bind(this);
+    }
+
+    shouldComponentUpdate(nextProps) {
+        return !utils.are_equal_shallow(nextProps, this.props);
+    }
+
+    componentWillMount() {
+        this.update();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.update(nextProps);
+    }
+
+    update(props = this.props) {
+        let markets = props.markets;
+        let quote = props.quote;
+
+        if (quote !== undefined) {
+            quote = asset_utils.addCryptradeNameSpace(quote);
+
+            markets = markets.filter(market => {
+                /* Only use markets corresponding to the current tab */
+                return quote === market.base;
+            });
+        }
+
+        this.setState({markets});
+    }
+
+    render() {
+        return (
+            <MarketsTable
+                markets={this.state.markets}
+                showFlip={false}
+                isFavorite={false}
+            />
+        );
+    }
+}
+
+CryptradeMarkets = connect(
+    CryptradeMarkets,
+    {
+        listenTo() {
+            return [CryptradeStore];
+        },
+        getProps() {
+            return {
+                markets: CryptradeStore.getState().markets
+            };
+        }
+    }
+);
+
+export {StarredMarkets, FeaturedMarkets, TopMarkets, CryptradeMarkets};

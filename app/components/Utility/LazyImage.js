@@ -112,6 +112,7 @@ export default class LazyImage extends React.Component {
                 ref={r => (this._imgRef = r)}
                 src={this.state.src}
                 style={style}
+                className={this.props.className}
             />
         );
 
