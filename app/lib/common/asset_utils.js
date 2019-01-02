@@ -120,7 +120,9 @@ export default class AssetUtils {
             symbol.indexOf(namespace) === -1 &&
             symbol.indexOf(".") === -1
         ) {
-            return namespace + symbol;
+            return ["BTS", "CNY", "EUR", "USD"].indexOf(symbol) === -1
+                ? namespace + symbol
+                : symbol;
         }
 
         return symbol;

@@ -9,6 +9,7 @@ import MarketsStore from "stores/MarketsStore";
 import MarketsTable from "./MarketsTable";
 import CryptradeStore from "../../stores/CryptradeStore";
 import {getCryptradeAssetNamespace} from "../../branding";
+import asset_utils from "../../lib/common/asset_utils";
 
 class StarredMarkets extends React.Component {
     render() {
@@ -164,10 +165,7 @@ class CryptradeMarkets extends React.Component {
         let quote = props.quote;
 
         if (quote !== undefined) {
-            quote =
-                ["BTS", "CNY", "EUR", "USD"].indexOf(quote) === -1
-                    ? getCryptradeAssetNamespace() + quote
-                    : quote;
+            quote = asset_utils.addCryptradeNameSpace(quote);
 
             markets = markets.filter(market => {
                 /* Only use markets corresponding to the current tab */
