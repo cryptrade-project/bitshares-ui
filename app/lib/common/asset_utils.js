@@ -118,6 +118,15 @@ export default class AssetUtils {
         );
     }
 
+    static removeCryptradeNameSpace(symbol) {
+        let namespace = getCryptradeAssetNamespace();
+        if (symbol && symbol.toUpperCase().indexOf(namespace) === 0) {
+            return symbol.toUpperCase().replace(namespace, "");
+        }
+
+        return symbol;
+    }
+
     static addCryptradeNameSpace(symbol) {
         let namespace = getCryptradeAssetNamespace();
         if (
