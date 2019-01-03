@@ -1232,7 +1232,7 @@ export default connect(
                 starredMarkets: SettingsStore.getState().starredMarkets,
                 onlyLiquid: SettingsStore.getState().viewSettings.get(
                     "onlyLiquid",
-                    true
+                    false
                 ),
                 defaultMarkets: CryptradeStore.getState().markets,
                 viewSettings: SettingsStore.getState().viewSettings,
