@@ -366,8 +366,7 @@ class DepositModalContent extends DecimalChecker {
                                         component="div"
                                         style={{
                                             fontSize: "0.8rem",
-                                            fontWeight: "bold",
-                                            paddingBottom: "0.3rem"
+                                            fontWeight: "bold"
                                         }}
                                         content="gateway.purchase_notice"
                                         inputAsset={assetUtils.replaceAssetSymbol(
