@@ -1988,16 +1988,12 @@ class Exchange extends React.Component {
         !this.state.mobileKey.includes("buySellTab") ? null : (
             <BuySell
                 key={`actionCard_${actionCardIndex++}`}
-                onBorrow={baseIsBitAsset ? this._borrowBase.bind(this) : null}
+                onBorrow={null}
                 onBuy={this._onBuy.bind(this, "bid")}
                 onDeposit={this._onDeposit.bind(this, "bid")}
                 currentAccount={currentAccount}
-                backedCoin={this.props.backedCoins.find(
-                    a => a.symbol === base.get("symbol")
-                )}
-                currentBridges={
-                    this.props.bridgeCoins.get(base.get("symbol")) || null
-                }
+                backedCoin={null}
+                currentBridges={null}
                 isOpen={this.state.buySellOpen}
                 onToggleOpen={this._toggleOpenBuySell.bind(this)}
                 parentWidth={centerContainerWidth}
@@ -2095,16 +2091,12 @@ class Exchange extends React.Component {
         !this.state.mobileKey.includes("buySellTab") ? null : (
             <BuySell
                 key={`actionCard_${actionCardIndex++}`}
-                onBorrow={quoteIsBitAsset ? this._borrowQuote.bind(this) : null}
+                onBorrow={null}
                 onBuy={this._onBuy.bind(this, "ask")}
                 onDeposit={this._onDeposit.bind(this, "ask")}
                 currentAccount={currentAccount}
-                backedCoin={this.props.backedCoins.find(
-                    a => a.symbol === quote.get("symbol")
-                )}
-                currentBridges={
-                    this.props.bridgeCoins.get(quote.get("symbol")) || null
-                }
+                backedCoin={null}
+                currentBridges={null}
                 isOpen={this.state.buySellOpen}
                 onToggleOpen={this._toggleOpenBuySell.bind(this)}
                 parentWidth={centerContainerWidth}

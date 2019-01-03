@@ -951,8 +951,9 @@ class BuySell extends React.Component {
         const otherAsset = isBid ? base : quote;
         const isBitAsset = !!otherAsset.get("bitasset");
         // check if globally settled
-        const isGloballySettled =
-            isBitAsset && otherAsset.get("bitasset").get("settlement_fund") > 0;
+        // const isGloballySettled =
+        //     isBitAsset && otherAsset.get("bitasset").get("settlement_fund") > 0;
+        const isGloballySettled = false;
 
         return (
             <div
