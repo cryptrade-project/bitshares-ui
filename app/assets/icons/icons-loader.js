@@ -1,19 +1,24 @@
 let icons = [
     "photo-camera",
     "adjust",
+    "alarm",
     "assets",
+    "barter",
+    "borrow",
     "checkmark-circle",
     "chevron-down",
     "clippy",
     "clock",
     "cog",
     "cogs",
+    "coming_soon",
     "connected",
     "connect",
     "cross-circle",
     "dashboard",
     "deposit",
     "disconnected",
+    "direct_debit",
     "dollar-green",
     "dollar",
     "download",
@@ -38,6 +43,7 @@ let icons = [
     "server",
     "settle",
     "share",
+    "showcases",
     "shuffle",
     "sun",
     "text",
@@ -49,6 +55,7 @@ let icons = [
     "transfer",
     "unlocked",
     "user",
+    "voting",
     "warning",
     "withdraw",
     "filter",
@@ -59,7 +66,8 @@ let icons = [
     "question-in-circle",
     "attention",
     "checkmark",
-    "paperclip"
+    "paperclip",
+    "wallet"
 ];
 
 let iconsMap = {};
