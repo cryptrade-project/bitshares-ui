@@ -127,7 +127,7 @@ class LoginSelector extends React.Component {
 
                         <div>
                             <Translate
-                                content="account.intro_text_title"
+                                content="cryptrade.account.intro_text_title"
                                 component="h4"
                                 wallet_name={getWalletName()}
                             />

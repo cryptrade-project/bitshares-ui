@@ -7,19 +7,34 @@ import cnames from "classnames";
 export default class TypeAhead extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            value: this.props.defaultValue
+
+        this.state = this._getInitialState(props);
+    }
+
+    _getInitialState(props) {
+        let valueRender = null;
+
+        if (props.items) {
+            props.items.find(item => {
+                if (item.id === props.defaultValue && item.labelRender) {
+                    valueRender = item.labelRender;
+                    return true;
+                }
+            });
+        }
+
+        return {
+            value: props.defaultValue,
+            valueRender
         };
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.value && nextProps.value != this.state.value) {
-            this.setState({value: nextProps.value});
+            this.setState(this._getInitialState(nextProps));
         }
         if (nextProps.value === undefined)
-            this.setState({
-                value: nextProps.defaultValue
-            });
+            this.setState(this._getInitialState(nextProps));
     }
 
     onClick = () => {
@@ -51,7 +66,12 @@ export default class TypeAhead extends React.Component {
 
         if (disabled) return;
 
-        this.setState({value, filter: "", isMenuShowing: false});
+        this.setState({
+            value,
+            valueRender: asset.labelRender,
+            filter: "",
+            isMenuShowing: false
+        });
         if (this.props.onSelect) this.props.onSelect(value, asset);
     }
 
@@ -72,16 +92,14 @@ export default class TypeAhead extends React.Component {
             <Autocomplete
                 renderInput={this.renderInput}
                 ref="autocomplete"
-                items={
-                    props.items || [
-                        {id: "foo", label: "foo"},
-                        {id: "bar", label: "bar"},
-                        {id: "baz", label: "baz"}
-                    ]
-                }
-                shouldItemRender={({label}) =>
-                    label.toLowerCase().indexOf(filter.toLowerCase()) > -1
-                }
+                items={props.items || []}
+                shouldItemRender={({label, labelSearch}) => {
+                    return (
+                        (labelSearch || label)
+                            .toLowerCase()
+                            .indexOf(filter.toLowerCase()) > -1
+                    );
+                }}
                 getItemValue={this.getValueFromItem}
                 renderItem={this.renderItem}
                 value={filter}
@@ -149,7 +167,7 @@ export default class TypeAhead extends React.Component {
                         isDisabled ? "typeahead__innerItem__disabled" : ""
                     }
                 >
-                    {item.label}
+                    {item.labelRender || item.label}
                 </span>
                 <span
                     style={{
@@ -167,10 +185,10 @@ export default class TypeAhead extends React.Component {
     getValueFromItem = item => item.label;
 
     selectedDisplay = () => {
-        const {value} = this.state;
+        const {value, valueRender} = this.state;
         return (
             <div onClick={this.onClick} className="typeahead__input">
-                {value}
+                {valueRender || value}
             </div>
         );
     };
@@ -199,7 +217,7 @@ export default class TypeAhead extends React.Component {
                     style={{
                         position: "absolute",
                         right: 10,
-                        top: !!this.props.label ? 35 : 7,
+                        top: !!this.props.label ? 40 : 10,
                         transform: isMenuShowing ? "rotate(180deg)" : null
                     }}
                 />

@@ -31,6 +31,7 @@ import AccountBrowsingMode from "../Account/AccountBrowsingMode";
 import {setLocalStorageType, isPersistantType} from "lib/common/localStorage";
 
 import {getLogo} from "branding";
+import {getCryptradeDefaultMarket} from "../../branding";
 var logo = getLogo();
 
 // const FlagImage = ({flag, width = 20, height = 20}) => {
@@ -136,6 +137,7 @@ class Header extends React.Component {
             nextProps.passwordLogin !== this.props.passwordLogin ||
             nextProps.locked !== this.props.locked ||
             nextProps.current_wallet !== this.props.current_wallet ||
+            nextProps.currentTheme !== this.props.currentTheme ||
             nextProps.lastMarket !== this.props.lastMarket ||
             nextProps.starredAccounts !== this.props.starredAccounts ||
             nextProps.currentLocale !== this.props.currentLocale ||
@@ -193,6 +195,20 @@ class Header extends React.Component {
         }
         this._closeDropdown();
     }
+
+    _toggleTheme = e => {
+        e.preventDefault();
+
+        const {currentTheme} = this.props;
+
+        SettingsActions.changeSetting({
+            setting: "themes",
+            value:
+                currentTheme === "midnightTheme"
+                    ? "lightTheme"
+                    : "midnightTheme"
+        });
+    };
 
     _onNavigate(route, e) {
         e.preventDefault();
@@ -331,8 +347,14 @@ class Header extends React.Component {
             starredAccounts,
             passwordLogin,
             passwordAccount,
-            height
+            height,
+            settings
         } = this.props;
+
+        const showAdvancedFeatures = settings.get(
+            "showAdvancedFeatures",
+            false
+        );
 
         let tradingAccounts = AccountStore.getMyAccounts();
         let maxHeight = Math.max(40, height - 67 - 36) + "px";
@@ -406,7 +428,7 @@ class Header extends React.Component {
 
         let tradeUrl = this.props.lastMarket
             ? `/market/${this.props.lastMarket}`
-            : "/market/USD_BTS";
+            : `/market/${getCryptradeDefaultMarket().id}`;
 
         // Account selector: Only active inside the exchange
         let account_display_name, accountsList;
@@ -537,28 +559,6 @@ class Header extends React.Component {
                         className="column-hide-small"
                         component="span"
                         content="header.settings"
-                    />
-                </a>
-            );
-        }
-        if (active.indexOf("deposit-withdraw") !== -1) {
-            dynamicMenuItem = (
-                <a
-                    style={{flexFlow: "row"}}
-                    className={cnames({
-                        active: active.indexOf("deposit-withdraw") !== -1
-                    })}
-                >
-                    <Icon
-                        size="1_5x"
-                        style={{position: "relative", top: 0, left: -8}}
-                        name="deposit"
-                        title="icons.deposit.deposit_withdraw"
-                    />
-                    <Translate
-                        className="column-hide-small"
-                        component="span"
-                        content="header.deposit-withdraw"
                     />
                 </a>
             );
@@ -1038,41 +1038,86 @@ class Header extends React.Component {
                                     />
                                 </a>
                             </li>
-                            <li>
-                                <a
-                                    style={{flexFlow: "row"}}
-                                    className={cnames(
-                                        active.indexOf("explorer") !== -1
-                                            ? null
-                                            : "column-hide-xs",
-                                        {
-                                            active:
-                                                active.indexOf("explorer") !==
-                                                -1
-                                        }
-                                    )}
-                                    onClick={this._onNavigate.bind(
-                                        this,
-                                        "/explorer/blocks"
-                                    )}
-                                >
-                                    <Icon
-                                        size="2x"
-                                        style={{
-                                            position: "relative",
-                                            top: 0,
-                                            left: -8
-                                        }}
-                                        name="server"
-                                        title="icons.server"
-                                    />
-                                    <Translate
-                                        className="column-hide-small"
-                                        component="span"
-                                        content="header.explorer"
-                                    />
-                                </a>
-                            </li>
+                            {showAdvancedFeatures ||
+                            active.indexOf("explorer") !== -1 ? (
+                                <li>
+                                    <a
+                                        style={{flexFlow: "row"}}
+                                        className={cnames(
+                                            active.indexOf("explorer") !== -1
+                                                ? null
+                                                : "column-hide-xs",
+                                            {
+                                                active:
+                                                    active.indexOf(
+                                                        "explorer"
+                                                    ) !== -1
+                                            }
+                                        )}
+                                        onClick={this._onNavigate.bind(
+                                            this,
+                                            "/explorer/blocks"
+                                        )}
+                                    >
+                                        <Icon
+                                            size="2x"
+                                            style={{
+                                                position: "relative",
+                                                top: 0,
+                                                left: -8
+                                            }}
+                                            name="server"
+                                            title="icons.server"
+                                        />
+                                        <Translate
+                                            className="column-hide-small"
+                                            component="span"
+                                            content="header.explorer"
+                                        />
+                                    </a>
+                                </li>
+                            ) : null}
+                            {!createAccountLink ||
+                            active.indexOf("deposit-withdraw") !== -1 ? (
+                                <li>
+                                    <a
+                                        style={{flexFlow: "row"}}
+                                        className={cnames(
+                                            active.indexOf(
+                                                "deposit-withdraw"
+                                            ) !== -1
+                                                ? null
+                                                : "column-hide-xs",
+                                            {
+                                                active:
+                                                    active.indexOf(
+                                                        "deposit-withdraw"
+                                                    ) !== -1
+                                            }
+                                        )}
+                                        onClick={this._onNavigate.bind(
+                                            this,
+                                            "/deposit-withdraw"
+                                        )}
+                                    >
+                                        <Icon
+                                            size="1_5x"
+                                            style={{
+                                                position: "relative",
+                                                top: -2,
+                                                left: -8
+                                            }}
+                                            name="deposit"
+                                            title="icons.deposit.deposit_withdraw"
+                                        />
+                                        <Translate
+                                            className="column-hide-small"
+                                            component="span"
+                                            content="header.deposit-withdraw"
+                                        />
+                                    </a>
+                                </li>
+                            ) : null}
                             {/*                            <li>
                                 <a
                                     style={{flexFlow: "row"}}
@@ -1129,7 +1174,7 @@ class Header extends React.Component {
                                 usernameViewIcon={true}
                             />
                         </div>
-                        {walletBalance}
+                        <span className="hide">{walletBalance}</span>
                     </div>
 
                     {hasLocalWallet && (
@@ -1182,7 +1227,7 @@ class Header extends React.Component {
                         >
                             <Icon
                                 className="lock-unlock"
-                                size="2x"
+                                size="1_5x"
                                 name={this.props.locked ? "locked" : "unlocked"}
                                 title={
                                     this.props.locked
@@ -1192,6 +1237,22 @@ class Header extends React.Component {
                             />
                         </span>
                     )}
+                </div>
+                <div style={{marginLeft: 14}}>
+                    <span
+                        onClick={this._toggleTheme.bind(this)}
+                        style={{cursor: "pointer"}}
+                    >
+                        <Icon
+                            className="icon"
+                            size="1_5x"
+                            name={
+                                this.props.currentTheme === "midnightTheme"
+                                    ? "sun"
+                                    : "moon"
+                            }
+                        />
+                    </span>
                 </div>
                 <div className="app-menu">
                     <div
@@ -1223,6 +1284,7 @@ class Header extends React.Component {
                                 showDeposit={this._showDeposit.bind(this)}
                                 showWithdraw={this._showWithdraw.bind(this)}
                                 showSend={this._showSend.bind(this)}
+                                showAdvancedFeatures={showAdvancedFeatures}
                                 toggleDropdownSubmenu={this._toggleDropdownSubmenu.bind(
                                     this,
                                     SUBMENUS.SETTINGS
@@ -1284,6 +1346,7 @@ Header = connect(
                 passwordAccount: AccountStore.getState().passwordAccount,
                 locked: WalletUnlockStore.getState().locked,
                 current_wallet: WalletManagerStore.getState().current_wallet,
+                currentTheme: SettingsStore.getState().settings.get("themes"),
                 lastMarket: SettingsStore.getState().viewSettings.get(
                     `lastMarket${chainID ? "_" + chainID.substr(0, 8) : ""}`
                 ),

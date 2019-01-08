@@ -8,6 +8,7 @@ import {Link} from "react-router-dom";
 import utils from "common/utils";
 import SettingsActions from "actions/SettingsActions";
 import cnames from "classnames";
+import AssetImage from "../Utility/AssetImage";
 
 class MarketsRow extends React.Component {
     static propTypes = {
@@ -143,37 +144,37 @@ class MarketsRow extends React.Component {
                         />
                     </div>
                 </td>
-                <td style={{textAlign: "left"}}>
+                <td
+                    style={{
+                        textAlign: "left",
+                        paddingTop: "8px",
+                        paddingBottom: "8px"
+                    }}
+                >
                     <Link
                         to={`/market/${this.props.quote.get(
                             "symbol"
                         )}_${this.props.base.get("symbol")}`}
                     >
-                        <img
-                            ref={imgName.toLowerCase()}
+                        <AssetImage
+                            name={quote.get("symbol")}
+                            style={{
+                                maxWidth: 30,
+                                marginRight: 10
+                            }}
                             className="column-hide-small"
-                            onError={this._onError.bind(this, imgName)}
-                            style={{maxWidth: 20, marginRight: 10}}
-                            src={`${__BASE_URL__}asset-symbols/${imgName.toLowerCase()}.png`}
                         />
                         <AssetName dataPlace="top" name={quote.get("symbol")} />
                         &nbsp;
-                        {this.props.isFavorite ? (
-                            <span>
-                                :&nbsp;
-                                <AssetName
-                                    dataPlace="top"
-                                    name={base.get("symbol")}
-                                />
-                            </span>
-                        ) : null}
+                        <span>
+                            :&nbsp;
+                            <AssetName
+                                dataPlace="top"
+                                name={base.get("symbol")}
+                            />
+                        </span>
                     </Link>
                 </td>
-                {this.props.isFavorite ? null : (
-                    <td style={{textAlign: "right"}}>
-                        <AssetName noTip name={base.get("symbol")} />
-                    </td>
-                )}
                 <td className="column-hide-small" style={{textAlign: "right"}}>
                     {marketStats && marketStats.price
                         ? utils.price_text(

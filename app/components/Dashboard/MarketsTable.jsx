@@ -48,9 +48,9 @@ class MarketsTable extends React.Component {
 
     update(nextProps = null) {
         let props = nextProps || this.props;
-        let showFlip = props.forceDirection;
+        let showFlip = props.showFlip;
 
-        if (props.markets && props.markets.size > 0) {
+        if (props.markets && props.markets.size >= 0) {
             let markets = props.markets
                 .toArray()
                 .map(market => {
@@ -61,7 +61,7 @@ class MarketsTable extends React.Component {
 
                     return {
                         key: marketName,
-                        inverted: undefined,
+                        inverted: null,
                         quote: market.quote,
                         base: market.base,
                         isHidden: props.hiddenMarkets.includes(marketName),
@@ -126,6 +126,12 @@ class MarketsTable extends React.Component {
 
                 switch (sortBy) {
                     case "price":
+                        if (a.marketStats.price === undefined) {
+                            return 1;
+                        } else if (b.marketStats.price === undefined) {
+                            return -1;
+                        }
+
                         if (a.marketStats.price && b.marketStats.price) {
                             if (sortDirection) {
                                 return (
@@ -303,14 +309,9 @@ class MarketsTable extends React.Component {
                             <th style={{textAlign: "left"}}>
                                 <Translate
                                     component="span"
-                                    content="account.asset"
+                                    content="exchange.market"
                                 />
                             </th>
-                            {this.props.isFavorite ? null : (
-                                <th style={{textAlign: "right"}}>
-                                    <Translate content="account.user_issued_assets.quote_name" />
-                                </th>
-                            )}
                             <th
                                 onClick={this._onToggleSort.bind(this, "price")}
                                 className={cnames(
@@ -363,15 +364,18 @@ class MarketsTable extends React.Component {
                         </tr>
                     }
                     rows={
-                        !marketRows.length ? (
-                            <tr className="table-empty">
-                                <td colSpan={showFlip ? 7 : 6}>
-                                    <Translate content="dashboard.table_empty" />
-                                </td>
-                            </tr>
-                        ) : (
-                            marketRows
-                        )
+                        !marketRows.length
+                            ? [
+                                  <tr
+                                      className="table-empty"
+                                      key="tr-table-empty"
+                                  >
+                                      <td colSpan={showFlip ? 7 : 6}>
+                                          <Translate content="dashboard.table_empty" />
+                                      </td>
+                                  </tr>
+                              ]
+                            : marketRows
                     }
                     pageSize={25}
                     label="utility.total_x_markets"

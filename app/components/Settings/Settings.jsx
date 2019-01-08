@@ -37,6 +37,7 @@ class Settings extends React.Component {
         ];
         // disable that the user can change login method if only one is allowed
         if (getAllowedLogins().length > 1) general.push("passwordLogin");
+        general.push("showAdvancedFeatures");
         general.push("reset");
 
         this.state = {
@@ -248,6 +249,7 @@ class Settings extends React.Component {
 
             case "showSettles":
             case "showAssetPercent":
+            case "showAdvancedFeatures":
             case "passwordLogin":
                 let reference = defaults[setting][0];
                 if (reference.translate) reference = reference.translate;

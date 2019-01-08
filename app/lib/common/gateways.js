@@ -11,7 +11,8 @@ import {
     cryptoBridgeAPIs,
     gdex2APIs,
     xbtsxAPIs,
-    citadelAPIs
+    citadelAPIs,
+    cryptradeAPIs
 } from "api/apiConfig";
 import {allowedGateway} from "branding";
 
@@ -110,6 +111,21 @@ export const availableGateways = {
         isEnabled: allowedGateway("CITADEL"),
         selected: false,
         assetWithdrawlAlias: {monero: "xmr"}, // if asset name doesn't equal to memo
+        options: {
+            enabled: false,
+            selected: false
+        }
+    },
+    CRYPTRADE: {
+        id: "CRYPTRADE",
+        name: "CRYPTRADE",
+        baseAPI: cryptradeAPIs,
+        isEnabled: allowedGateway("CRYPTRADE"),
+        selected: false,
+        singleWallet: true, // Has no coresponging coinType == backingCoinType specific wallet
+        addressValidatorAsset: true, // Address validator requires output_asset parameter
+        useFullAssetName: true, // Adds <gateway>.<asset> to memo and address object
+        intermediateAccount: "cryptrade", // Fixed intermediateAccount
         options: {
             enabled: false,
             selected: false

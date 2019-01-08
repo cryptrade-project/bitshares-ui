@@ -7,8 +7,8 @@ import AccountStore from "stores/AccountStore";
 import SettingsStore from "stores/SettingsStore";
 
 import {Tabs, Tab} from "../Utility/Tabs";
-import {StarredMarkets, FeaturedMarkets} from "./Markets";
-import {getPossibleGatewayPrefixes} from "common/gateways";
+import {StarredMarkets, CryptradeMarkets} from "./Markets";
+import AssetImage from "../Utility/AssetImage";
 
 class DashboardPage extends React.Component {
     render() {
@@ -53,36 +53,30 @@ class DashboardPage extends React.Component {
                                     {preferredBases.sort().map(q => {
                                         let title = (
                                             <span>
-                                                <img
-                                                    className="column-hide-small"
+                                                <AssetImage
+                                                    name={q.toLowerCase()}
                                                     style={{
                                                         maxWidth: 30,
-                                                        marginRight: 5
+                                                        marginRight: 10
                                                     }}
-                                                    src={`${__BASE_URL__}asset-symbols/${q
-                                                        .replace(
-                                                            /^BTC/,
-                                                            "OPEN.BTC"
-                                                        )
-                                                        .toLowerCase()}.png`}
+                                                    className="column-hide-small"
                                                 />
-                                                &nbsp;
                                                 {q}
                                             </span>
                                         );
 
                                         return (
                                             <Tab key={q} title={title}>
-                                                <FeaturedMarkets
-                                                    quotes={[q].concat(
-                                                        getPossibleGatewayPrefixes(
-                                                            [q]
-                                                        )
-                                                    )}
-                                                />
+                                                <CryptradeMarkets quote={q} />
                                             </Tab>
                                         );
                                     })}
+                                    <Tab
+                                        title="cryptrade.dashboard.all_markets"
+                                        key="all-markets"
+                                    >
+                                        <CryptradeMarkets />
+                                    </Tab>
                                 </Tabs>
                             </div>
                         </div>

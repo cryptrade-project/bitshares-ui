@@ -365,6 +365,7 @@ class RecentTransactions extends React.Component {
                     ) : null}
                 </td>
                 <td />
+                <td />
             </tr>
         );
 
