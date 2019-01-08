@@ -1244,6 +1244,20 @@ class Exchange extends React.Component {
         });
     }
 
+    _toggleQuickChartType() {
+        let newChartType =
+            this.state.chartType === "market_depth"
+                ? "price_chart"
+                : "market_depth";
+        this.setState({
+            chartType: newChartType
+        });
+
+        SettingsActions.changeViewSetting({
+            chartType: newChartType
+        });
+    }
+
     _chartZoom = () => {
         SettingsActions.changeViewSetting({
             chartZoom: !this.state.chartZoom
@@ -1974,16 +1988,12 @@ class Exchange extends React.Component {
         !this.state.mobileKey.includes("buySellTab") ? null : (
             <BuySell
                 key={`actionCard_${actionCardIndex++}`}
-                onBorrow={baseIsBitAsset ? this._borrowBase.bind(this) : null}
+                onBorrow={null}
                 onBuy={this._onBuy.bind(this, "bid")}
                 onDeposit={this._onDeposit.bind(this, "bid")}
                 currentAccount={currentAccount}
-                backedCoin={this.props.backedCoins.find(
-                    a => a.symbol === base.get("symbol")
-                )}
-                currentBridges={
-                    this.props.bridgeCoins.get(base.get("symbol")) || null
-                }
+                backedCoin={null}
+                currentBridges={null}
                 isOpen={this.state.buySellOpen}
                 onToggleOpen={this._toggleOpenBuySell.bind(this)}
                 parentWidth={centerContainerWidth}
@@ -2081,16 +2091,12 @@ class Exchange extends React.Component {
         !this.state.mobileKey.includes("buySellTab") ? null : (
             <BuySell
                 key={`actionCard_${actionCardIndex++}`}
-                onBorrow={quoteIsBitAsset ? this._borrowQuote.bind(this) : null}
+                onBorrow={null}
                 onBuy={this._onBuy.bind(this, "ask")}
                 onDeposit={this._onDeposit.bind(this, "ask")}
                 currentAccount={currentAccount}
-                backedCoin={this.props.backedCoins.find(
-                    a => a.symbol === quote.get("symbol")
-                )}
-                currentBridges={
-                    this.props.bridgeCoins.get(quote.get("symbol")) || null
-                }
+                backedCoin={null}
+                currentBridges={null}
                 isOpen={this.state.buySellOpen}
                 onToggleOpen={this._toggleOpenBuySell.bind(this)}
                 parentWidth={centerContainerWidth}
@@ -2660,7 +2666,10 @@ class Exchange extends React.Component {
                 let stop = false;
                 if (!stop && thisTabsId == panelTabs[thisPanelName]) {
                     panelTabsActive[thisTabsId] = !panelTabsActive[thisTabsId]
-                        ? thisPanelName
+                        ? panelTabs["my_history"] === panelTabs["history"] &&
+                          panelTabs["history"] === parseInt(thisTabsId)
+                            ? "history"
+                            : thisPanelName
                         : panelTabsActive[thisTabsId];
                     stop = true;
                 }
@@ -2787,10 +2796,6 @@ class Exchange extends React.Component {
                             tab={translator.translate("exchange.market_name")}
                             key="my-market"
                         />
-                        <Tabs.TabPane
-                            tab={translator.translate("exchange.more")}
-                            key="find-market"
-                        />
                     </Tabs>
                     {myMarkets}
                 </div>
@@ -2869,10 +2874,6 @@ class Exchange extends React.Component {
                                 )}
                                 key="my-market"
                             />
-                            <Tabs.TabPane
-                                tab={translator.translate("exchange.more")}
-                                key="find-market"
-                            />
                         </Tabs>
                         {myMarkets}
                     </Collapse.Panel>
@@ -2943,10 +2944,6 @@ class Exchange extends React.Component {
                                     "exchange.market_name"
                                 )}
                                 key="my-market"
-                            />
-                            <Tabs.TabPane
-                                tab={translator.translate("exchange.more")}
-                                key="find-market"
                             />
                         </Tabs>
                     </div>
@@ -3045,6 +3042,11 @@ class Exchange extends React.Component {
                     onToggleMarketPicker={this._toggleMarketPicker.bind(this)}
                     onTogglePersonalize={this._togglePersonalize.bind(this)}
                     showVolumeChart={showVolumeChart}
+                    onToggleQuickChartType={this._toggleQuickChartType.bind(
+                        this
+                    )}
+                    chartType={chartType}
+                    tinyScreen={tinyScreen}
                 />
 
                 <div className="grid-block page-layout market-layout">

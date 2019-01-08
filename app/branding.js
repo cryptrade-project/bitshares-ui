@@ -9,7 +9,7 @@
  * @returns {string}
  */
 export function getWalletName() {
-    return "BitShares";
+    return "Cryptrade";
 }
 
 /**
@@ -17,7 +17,7 @@ export function getWalletName() {
  * @returns {string}
  */
 export function getWalletURL() {
-    return "https://wallet.bitshares.org";
+    return "https://wallet.cryptrade.io";
 }
 
 /**
@@ -38,7 +38,7 @@ export function getFaucet() {
  * @returns {*}
  */
 export function getLogo() {
-    return require("assets/logo-ico-blue.png");
+    return require("assets/logo_cryptrade.png");
 }
 
 /**
@@ -47,7 +47,7 @@ export function getLogo() {
  */
 export function getDefaultTheme() {
     // possible ["darkTheme", "lightTheme", "midnightTheme"]
-    return "darkTheme";
+    return "midnightTheme";
 }
 
 /**
@@ -66,7 +66,15 @@ export function getDefaultLogin() {
  */
 export function getUnits(chainId = "4018d784") {
     if (chainId === "4018d784")
-        return ["BTS", "USD", "CNY", "BTC", "EUR", "GBP"];
+        return [
+            "BTS",
+            "CRYPTRADE.BTC",
+            "CRYPTRADE.CRCO",
+            "USD",
+            "CNY",
+            "EUR",
+            "GBP"
+        ];
     else if (chainId === "39f5e2ed") return ["TEST"];
     // unknown chain id: (need to return at least one unit)
     else return ["BTS"];
@@ -79,7 +87,7 @@ export function getUnits(chainId = "4018d784") {
  */
 
 export function getMyMarketsBases() {
-    return ["BTC", "ETH", "BTS", "USD", "CNY"];
+    return ["BTC", "BTS", "CRCO"];
 }
 
 /**
@@ -298,7 +306,8 @@ export function getAssetNamespaces() {
         "GDEX.",
         "XBTSX.",
         "SPARKDEX.",
-        "CITADEL."
+        "CITADEL.",
+        "CRYPTRADE."
     ];
 }
 
@@ -308,7 +317,7 @@ export function getAssetNamespaces() {
  */
 export function getAssetHideNamespaces() {
     // e..g "OPEN.", "bit"
-    return [];
+    return ["CRYPTRADE."];
 }
 
 /**
@@ -317,18 +326,7 @@ export function getAssetHideNamespaces() {
  * @returns {boolean}
  */
 export function allowedGateway(gateway) {
-    return (
-        [
-            "OPEN",
-            "RUDEX",
-            "WIN",
-            "BRIDGE",
-            "GDEX",
-            "XBTSX",
-            "SPARKDEX",
-            "CITADEL"
-        ].indexOf(gateway) >= 0
-    );
+    return ["CRYPTRADE"].indexOf(gateway) >= 0;
 }
 
 export function getSupportedLanguages() {
@@ -338,4 +336,61 @@ export function getSupportedLanguages() {
 export function getAllowedLogins() {
     // possible: list containing any combination of ["password", "wallet"]
     return ["password", "wallet"];
+}
+
+/**
+ * Namespace of Cryptrade Issued Assets
+ * @returns {string}
+ */
+export function getCryptradeAssetNamespace() {
+    return "CRYPTRADE.";
+}
+
+/**
+ * Issuer Account of Cryptrade
+ * @returns {{name: string, id: string}}
+ */
+export function getCryptradeIssuerAccount() {
+    return {
+        id: "1.2.1150161",
+        name: "cryptrade"
+    };
+}
+
+/**
+ * Support Email of Cryptrade
+ * @returns {string}
+ */
+export function getCryptradeSupportEmail() {
+    return "support@cryptrade.io";
+}
+
+/**
+ * Map issued asset name to real asset name, in case the asset name include numbers
+ * @returns {{}}
+ */
+export function getCryptradeRealAssetNames() {
+    // e..g BRIM: "BR1M"
+    // issued asset name : "real asset name"
+    return {};
+}
+
+/**
+ * Get default market of Cryptrade
+ * @returns {{quote: string, id: string, base: string}}
+ */
+export function getCryptradeDefaultMarket() {
+    return {
+        id: "CRYPTRADE.CRCO_CRYPTRADE.BTC",
+        quote: "CRYPTRADE.CRCO",
+        base: "CRYPTRADE.BTC"
+    };
+}
+
+/**
+ * Get Static URL
+ * @returns {string}
+ */
+export function getCryptradeStaticURL() {
+    return "https://static.cryptrade.io";
 }

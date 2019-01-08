@@ -722,8 +722,18 @@
             }
         }
     }
-    .header-container span.icon.lock-unlock > svg > path {
-        fill: $button-bg-color;
+    .header-container {
+        span.icon.lock-unlock > svg > path {
+            fill: $button-bg-color;
+        }
+
+        span.icon.sun > svg > path {
+            fill: $button-bg-color;
+        }
+
+        span.icon.moon > svg > path {
+            fill: $button-bg-color;
+        }
     }
     .header-dropdown-sub-link.enabled {
         color: $secondary-text-color;
@@ -2613,7 +2623,7 @@
         border-radius: 0;
         .hamburger .icon {
             position: relative;
-            top: 12px;
+            top: 14px;
         }
     }
     .dropdown.header-menu {

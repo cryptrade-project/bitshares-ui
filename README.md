@@ -1,5 +1,8 @@
-BitShares-UI
+Cryptrade-UI
 ============
+
+![travis ci](https://travis-ci.org/cryptrade-project/cryptrade-ui.svg?branch=master) 
+
 [中文版](README_zh.md)
 
 This is a light wallet that connects to a BitShares API provided by the *witness_node* executable.

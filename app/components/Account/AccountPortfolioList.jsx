@@ -718,48 +718,55 @@ class AccountPortfolioList extends React.Component {
                             emptyCell
                         )}
                     </td>
-                    <td>
-                        {isBitAsset && backingAsset ? (
-                            <div
-                                className="inline-block"
-                                data-place="bottom"
-                                data-tip={counterpart.translate(
-                                    settlePriceTitle,
-                                    {
-                                        asset: isAssetBitAsset
-                                            ? "bit" + symbol
-                                            : symbol,
-                                        backingAsset: isBackingBitAsset
-                                            ? "bit" + backingAsset.get("symbol")
-                                            : backingAsset.get("symbol"),
-                                        settleDelay:
-                                            options.force_settlement_delay_sec /
-                                            3600
-                                    }
-                                )}
-                            >
-                                {settleLink}
-                            </div>
-                        ) : (
-                            emptyCell
-                        )}
-                    </td>
-                    <td
-                        style={{textAlign: "center"}}
-                        className="column-hide-small"
-                    >
-                        {!isBitAsset ? (
-                            <a
-                                style={{marginRight: 0}}
-                                onClick={this._burnAsset.bind(
-                                    this,
-                                    asset.get("id")
-                                )}
-                            >
-                                <Icon name="fire" className="icon-14px" />
-                            </a>
-                        ) : null}
-                    </td>
+
+                    {this.props.showAdvancedFeatures ? (
+                        <td>
+                            {isBitAsset && backingAsset ? (
+                                <div
+                                    className="inline-block"
+                                    data-place="bottom"
+                                    data-tip={counterpart.translate(
+                                        settlePriceTitle,
+                                        {
+                                            asset: isAssetBitAsset
+                                                ? "bit" + symbol
+                                                : symbol,
+                                            backingAsset: isBackingBitAsset
+                                                ? "bit" +
+                                                  backingAsset.get("symbol")
+                                                : backingAsset.get("symbol"),
+                                            settleDelay:
+                                                options.force_settlement_delay_sec /
+                                                3600
+                                        }
+                                    )}
+                                >
+                                    {settleLink}
+                                </div>
+                            ) : (
+                                emptyCell
+                            )}
+                        </td>
+                    ) : null}
+
+                    {this.props.showAdvancedFeatures ? (
+                        <td
+                            style={{textAlign: "center"}}
+                            className="column-hide-small"
+                        >
+                            {!isBitAsset ? (
+                                <a
+                                    style={{marginRight: 0}}
+                                    onClick={this._burnAsset.bind(
+                                        this,
+                                        asset.get("id")
+                                    )}
+                                >
+                                    <Icon name="fire" className="icon-14px" />
+                                </a>
+                            ) : null}
+                        </td>
+                    ) : null}
 
                     <td
                         style={{textAlign: "center"}}

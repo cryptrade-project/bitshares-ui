@@ -19,6 +19,7 @@ import {getGatewayStatusByAsset} from "common/gatewayUtils";
 import CryptoLinkFormatter from "../Utility/CryptoLinkFormatter";
 import counterpart from "counterpart";
 import {Modal, Button} from "bitshares-ui-style-guide";
+import assetUtils from "../../lib/common/asset_utils";
 
 class DepositModalContent extends DecimalChecker {
     constructor() {
@@ -199,17 +200,17 @@ class DepositModalContent extends DecimalChecker {
     }
 
     addDepositAddress(depositAddress) {
-        let {selectedGateway, selectedAsset} = this.state;
-        let {account} = this.props;
+        // let {selectedGateway, selectedAsset} = this.state;
+        // let {account} = this.props;
 
-        this.deposit_address_cache.cacheInputAddress(
-            selectedGateway.toLowerCase(),
-            account,
-            selectedAsset.toLowerCase(),
-            selectedGateway.toLowerCase() + "." + selectedAsset.toLowerCase(),
-            depositAddress.address,
-            depositAddress.memo
-        );
+        // this.deposit_address_cache.cacheInputAddress(
+        //     selectedGateway.toLowerCase(),
+        //     account,
+        //     selectedAsset.toLowerCase(),
+        //     selectedGateway.toLowerCase() + "." + selectedAsset.toLowerCase(),
+        //     depositAddress.address,
+        //     depositAddress.memo
+        // );
         this.setState({
             depositAddress,
             fetchingAddress: false
@@ -241,6 +242,7 @@ class DepositModalContent extends DecimalChecker {
             !depositAddress.error;
 
         let minDeposit = 0;
+        let requiredConfirmations = 0;
         if (!!backingAsset) {
             if (!!backingAsset.minAmount && !!backingAsset.precision) {
                 minDeposit = utils.format_number(
@@ -252,6 +254,10 @@ class DepositModalContent extends DecimalChecker {
             } else if (!!backingAsset.gateFee) {
                 minDeposit = backingAsset.gateFee * 2;
             }
+
+            requiredConfirmations = backingAsset.requiredConfirmations
+                ? backingAsset.requiredConfirmations
+                : null;
         }
         //let maxDeposit = backingAsset.maxAmount ? backingAsset.maxAmount : null;
 
@@ -284,12 +290,13 @@ class DepositModalContent extends DecimalChecker {
                                     defaultValue={selectedAsset}
                                     onSelect={this.onAssetSelected.bind(this)}
                                     selectOnBlur
+                                    includeBTS={false}
                                 />
                             </div>
                         </div>
                     </div>
 
-                    {usingGateway && selectedAsset
+                    {usingGateway && selectedAsset && false
                         ? gatewaySelector.call(this, {
                               selectedGateway,
                               gatewayStatus,
@@ -331,7 +338,18 @@ class DepositModalContent extends DecimalChecker {
                                 style={{fontSize: "1rem"}}
                                 content="gateway.min_deposit_warning_amount"
                                 minDeposit={minDeposit || 0}
-                                coin={selectedAsset}
+                                coin={assetUtils.replaceAssetSymbol(
+                                    selectedAsset
+                                )}
+                            />
+
+                            <Translate
+                                className="grid-block container-row maxDeposit"
+                                style={{fontSize: "1rem"}}
+                                content="cryptrade.gateway.required_confirmations_warning"
+                                required_confirmations={
+                                    requiredConfirmations || 0
+                                }
                             />
 
                             <div className="grid-block container-row">
@@ -346,11 +364,12 @@ class DepositModalContent extends DecimalChecker {
                                         component="div"
                                         style={{
                                             fontSize: "0.8rem",
-                                            fontWeight: "bold",
-                                            paddingBottom: "0.3rem"
+                                            fontWeight: "bold"
                                         }}
                                         content="gateway.purchase_notice"
-                                        inputAsset={selectedAsset}
+                                        inputAsset={assetUtils.replaceAssetSymbol(
+                                            selectedAsset
+                                        )}
                                         outputAsset={
                                             selectedGateway +
                                             "." +
@@ -381,8 +400,7 @@ class DepositModalContent extends DecimalChecker {
                                             component="div"
                                             style={{
                                                 fontSize: "0.8rem",
-                                                fontWeight: "bold",
-                                                paddingBottom: "0.3rem"
+                                                fontWeight: "bold"
                                             }}
                                             unsafe
                                             content="gateway.purchase_notice_memo"
@@ -397,11 +415,18 @@ class DepositModalContent extends DecimalChecker {
                                 </div>
                             ) : null}
                             <Translate
-                                component="span"
-                                style={{fontSize: "0.8rem"}}
+                                component="label"
+                                className="label warning"
+                                style={{
+                                    fontSize: "0.8rem",
+                                    whiteSpace: "normal",
+                                    lineHeight: 1.4
+                                }}
                                 content="gateway.min_deposit_warning_asset"
                                 minDeposit={minDeposit || 0}
-                                coin={selectedAsset}
+                                coin={assetUtils.replaceAssetSymbol(
+                                    selectedAsset
+                                )}
                             />
                         </div>
                     ) : null}

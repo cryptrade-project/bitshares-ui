@@ -93,6 +93,14 @@ export const xbtsxAPIs = {
     COINS_LIST: "/coin"
 };
 
+export const cryptradeAPIs = {
+    BASE: "https://api-dev.cryptrade.io/api/v1",
+    COINS_LIST: "/coins",
+    ACTIVE_WALLETS: "/wallets",
+    MARKETS: "/markets",
+    TRADING_PAIRS: "/trading-pairs"
+};
+
 export const nodeRegions = [
     // region of the node follows roughly https://en.wikipedia.org/wiki/Subregion#/media/File:United_Nations_geographical_subregions.png
     "Northern Europe",

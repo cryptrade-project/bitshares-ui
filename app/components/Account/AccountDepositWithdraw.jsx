@@ -6,13 +6,11 @@ import utils from "common/utils";
 import Translate from "react-translate-component";
 import ChainTypes from "../Utility/ChainTypes";
 import BindToChainState from "../Utility/BindToChainState";
-import CitadelGateway from "../DepositWithdraw/citadel/CitadelGateway";
 import OpenledgerGateway from "../DepositWithdraw/OpenledgerGateway";
 import OpenLedgerFiatDepositWithdrawal from "../DepositWithdraw/openledger/OpenLedgerFiatDepositWithdrawal";
 import OpenLedgerFiatTransactionHistory from "../DepositWithdraw/openledger/OpenLedgerFiatTransactionHistory";
 import BlockTradesBridgeDepositRequest from "../DepositWithdraw/blocktrades/BlockTradesBridgeDepositRequest";
 import CitadelBridgeDepositRequest from "../DepositWithdraw/citadel/CitadelBridgeDepositRequest";
-import HelpContent from "../Utility/HelpContent";
 import AccountStore from "stores/AccountStore";
 import SettingsStore from "stores/SettingsStore";
 import SettingsActions from "actions/SettingsActions";
@@ -25,10 +23,9 @@ import BitsparkGateway from "../DepositWithdraw/bitspark/BitsparkGateway";
 import GdexGateway from "../DepositWithdraw/gdex/GdexGateway";
 import WinexGateway from "../DepositWithdraw/winex/WinexGateway";
 import XbtsxGateway from "../DepositWithdraw/xbtsx/XbtsxGateway";
+import CryptradeGateway from "../DepositWithdraw/cryptrade/CryptradeGateway";
 import PropTypes from "prop-types";
-import DepositModal from "../Modal/DepositModal";
-import WithdrawModal from "../Modal/WithdrawModalNew";
-import TranslateWithLinks from "../Utility/TranslateWithLinks";
+import {getWalletName} from "../../branding";
 
 class AccountDepositWithdraw extends React.Component {
     static propTypes = {
@@ -72,6 +69,10 @@ class AccountDepositWithdraw extends React.Component {
             !utils.are_equal_shallow(
                 nextProps.citadelBackedCoins,
                 this.props.citadelBackedCoins
+            ) ||
+            !utils.are_equal_shallow(
+                nextProps.cryptradeBackedCoins,
+                this.props.cryptradeBackedCoins
             ) ||
             nextState.olService !== this.state.olService ||
             nextState.rudexService !== this.state.rudexService ||
@@ -172,7 +173,8 @@ class AccountDepositWithdraw extends React.Component {
         openLedgerGatewayCoins,
         rudexGatewayCoins,
         bitsparkGatewayCoins,
-        xbtsxGatewayCoins
+        xbtsxGatewayCoins,
+        cryptradeGatewayCoins
     ) {
         //let services = ["Openledger (OPEN.X)", "BlockTrades (TRADE.X)", "Transwiser", "BitKapital"];
         let serList = [];
@@ -185,6 +187,18 @@ class AccountDepositWithdraw extends React.Component {
             xbtsxService,
             citadelService
         } = this.state;
+        serList.push({
+            name: "Cryptrade",
+            template: (
+                <div>
+                    <CryptradeGateway
+                        account={account}
+                        coins={cryptradeGatewayCoins}
+                    />
+                </div>
+            )
+        });
+
         serList.push({
             name: "Openledger (OPEN.X)",
             template: (
@@ -580,11 +594,18 @@ class AccountDepositWithdraw extends React.Component {
                 return 0;
             });
 
+        let cryptradeGatewayCoins = this.props.cryptradeBackedCoins.map(
+            coin => {
+                return coin;
+            }
+        );
+
         let services = this.renderServices(
             openLedgerGatewayCoins,
             rudexGatewayCoins,
             bitsparkGatewayCoins,
-            xbtsxGatewayCoins
+            xbtsxGatewayCoins,
+            cryptradeGatewayCoins
         );
 
         let options = services.map((services_obj, index) => {
@@ -596,18 +617,24 @@ class AccountDepositWithdraw extends React.Component {
         });
 
         const serviceNames = [
-            "Winex",
-            "GDEX",
+            "Cryptrade",
             "OPEN",
             "RUDEX",
             "SPARKDEX",
-            "TRADE",
-            "BITKAPITAL",
             "XBTSX",
-            "CITADEL"
+            "TRADE",
+            "CITADEL",
+            "BITKAPITAL",
+            "GDEX",
+            "Winex"
         ];
         const currentServiceName = serviceNames[activeService];
         const currentServiceDown = servicesDown.get(currentServiceName);
+        console.log(
+            "Active Gateway Service",
+            currentServiceName,
+            activeService
+        );
 
         return (
             <div
@@ -619,85 +646,32 @@ class AccountDepositWithdraw extends React.Component {
                     className={this.props.contained ? "" : "grid-content"}
                     style={{paddingTop: "2rem"}}
                 >
-                    <div className="grid-block vertical medium-horizontal no-margin no-padding">
-                        <div style={{paddingBottom: "1rem"}}>
-                            <DepositModal
-                                ref="deposit_modal"
-                                modalId="deposit_modal_new"
-                                account={this.props.currentAccount}
-                                backedCoins={this.props.backedCoins}
-                            />
-                            <WithdrawModal
-                                ref="withdraw_modal"
-                                modalId="withdraw_modal_new"
-                                backedCoins={this.props.backedCoins}
-                            />
-                            <TranslateWithLinks
-                                string="gateway.phase_out_warning"
-                                keys={[
-                                    {
-                                        arg: "deposit_modal_link",
-                                        value: (
-                                            <a
-                                                onClick={() => {
-                                                    if (this.refs.deposit_modal)
-                                                        this.refs.deposit_modal.show();
-                                                }}
-                                            >
-                                                <Translate content="modal.deposit.submit" />
-                                            </a>
-                                        )
-                                    },
-                                    {
-                                        arg: "withdraw_modal_link",
-                                        value: (
-                                            <a
-                                                onClick={() => {
-                                                    if (
-                                                        this.refs.withdraw_modal
-                                                    )
-                                                        this.refs.withdraw_modal.show();
-                                                }}
-                                            >
-                                                <Translate content="modal.withdraw.submit" />
-                                            </a>
-                                        )
-                                    }
-                                ]}
-                            />
-                        </div>
-                    </div>
                     <Translate content="gateway.title" component="h2" />
                     <div className="grid-block vertical medium-horizontal no-margin no-padding">
                         <div className="medium-6 show-for-medium">
-                            <HelpContent
-                                path="components/DepositWithdraw"
-                                section="deposit-short"
-                            />
+                            <h3>
+                                <Translate content="cryptrade.gateway.deposit_or_withdrawal" />
+                            </h3>
+                            <p>
+                                <Translate content="cryptrade.gateway.deposit_intro" />
+                            </p>
                         </div>
                         <div className="medium-5 medium-offset-1">
-                            <HelpContent
-                                account={account.get("name")}
-                                path="components/DepositWithdraw"
-                                section="receive"
-                            />
+                            <h3>
+                                <Translate content="cryptrade.gateway.receive_funds" />
+                            </h3>
+                            <p>
+                                <Translate
+                                    content="cryptrade.gateway.receive_funds_intro"
+                                    wallet_name={getWalletName()}
+                                />
+                                <strong>{account.get("name")}</strong>
+                            </p>
                         </div>
                     </div>
                     <div>
                         <div className="grid-block vertical medium-horizontal no-margin no-padding">
                             <div className="medium-6 small-order-2 medium-order-1">
-                                <Translate
-                                    component="label"
-                                    className="left-label"
-                                    content="gateway.service"
-                                />
-                                <select
-                                    onChange={this.onSetService.bind(this)}
-                                    className="bts-select"
-                                    value={activeService}
-                                >
-                                    {options}
-                                </select>
                                 {currentServiceDown ? (
                                     <Translate
                                         style={{
@@ -753,7 +727,10 @@ class AccountDepositWithdraw extends React.Component {
         );
     }
 }
-AccountDepositWithdraw = BindToChainState(AccountDepositWithdraw);
+AccountDepositWithdraw = BindToChainState(AccountDepositWithdraw, {
+    auth_required: true,
+    auth_required_redirect_home: true
+});
 
 class DepositStoreWrapper extends React.Component {
     componentWillMount() {
@@ -805,6 +782,10 @@ export default connect(
                 ),
                 xbtsxBackedCoins: GatewayStore.getState().backedCoins.get(
                     "XBTSX",
+                    []
+                ),
+                cryptradeBackedCoins: GatewayStore.getState().backedCoins.get(
+                    "CRYPTRADE",
                     []
                 ),
                 servicesDown: GatewayStore.getState().down || {}

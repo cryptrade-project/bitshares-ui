@@ -21,7 +21,8 @@ import ChoiceModal from "../Modal/ChoiceModal";
 import {ChainStore} from "bitsharesjs";
 import ifvisible from "ifvisible";
 import {getWalletName} from "branding";
-import {Tooltip} from "bitshares-ui-style-guide";
+import {getLogo} from "branding";
+import {Modal, Button, Tooltip} from "bitshares-ui-style-guide";
 
 class Footer extends React.Component {
     static propTypes = {
@@ -485,8 +486,16 @@ class Footer extends React.Component {
                                     />
                                 )}
                                 <span style={updateStyles}>
+                                    <img
+                                        style={{
+                                            margin: 0,
+                                            height: 15,
+                                            paddingRight: 5
+                                        }}
+                                        src={getLogo()}
+                                    />
                                     <Translate
-                                        content="footer.title"
+                                        content="cryptrade.footer.title"
                                         wallet_name={getWalletName()}
                                     />
                                     {__GIT_BRANCH__ === "staging" ? (

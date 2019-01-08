@@ -2,6 +2,7 @@ import React from "react";
 import {Link} from "react-router-dom";
 import Icon from "../Icon/Icon";
 import AssetName from "../Utility/AssetName";
+import AssetImage from "../Utility/AssetImage";
 import MarketsActions from "actions/MarketsActions";
 import SettingsActions from "actions/SettingsActions";
 import PriceStatWithLabel from "./PriceStatWithLabel";
@@ -11,6 +12,7 @@ import {ChainStore} from "bitsharesjs";
 import ExchangeHeaderCollateral from "./ExchangeHeaderCollateral";
 import {Icon as AntIcon} from "bitshares-ui-style-guide";
 import {Asset, Price} from "common/MarketClasses";
+import utils from "../../lib/common/utils";
 
 export default class ExchangeHeader extends React.Component {
     constructor(props) {
@@ -32,6 +34,23 @@ export default class ExchangeHeader extends React.Component {
     shouldComponentUpdate(nextProps) {
         if (!nextProps.marketReady) return false;
         return true;
+    }
+
+    componentDidUpdate() {
+        this._updateTitle();
+    }
+
+    _updateTitle() {
+        const {quoteAsset, baseAsset, latestPrice} = this.props;
+
+        if (latestPrice && this._quoteName && this._baseName) {
+            document.title =
+                utils.price_text(latestPrice, quoteAsset, baseAsset) +
+                " " +
+                this._quoteName +
+                " / " +
+                this._baseName;
+        }
     }
 
     _addMarket(quote, base) {
@@ -99,11 +118,6 @@ export default class ExchangeHeader extends React.Component {
         const volumeBase = marketStats.get("volumeBase");
         const volumeQuote = marketStats.get("volumeQuote");
         const dayChangeWithSign = dayChange > 0 ? "+" + dayChange : dayChange;
-
-        const volume24h = this.state.volumeShowQuote ? volumeQuote : volumeBase;
-        const volume24hAsset = this.state.volumeShowQuote
-            ? quoteAsset
-            : baseAsset;
 
         let showCollateralRatio = false;
 
@@ -193,6 +207,15 @@ export default class ExchangeHeader extends React.Component {
             }
         }
 
+        const styles = {
+            assetImage: {
+                maxWidth: 16,
+                maxHeight: 16,
+                marginRight: 5,
+                marginTop: -2
+            }
+        };
+
         const translator = require("counterpart");
 
         let isQuoteSelected =
@@ -239,10 +262,17 @@ export default class ExchangeHeader extends React.Component {
                                                 : ""
                                         }}
                                     >
+                                        <AssetImage
+                                            name={quoteSymbol}
+                                            style={styles.assetImage}
+                                        />
                                         <AssetName
                                             name={quoteSymbol}
                                             replace={true}
                                             noTip
+                                            onRenderedName={name => {
+                                                this._quoteName = name;
+                                            }}
                                         />
                                     </span>
                                     <span style={{padding: "0 5px"}}>/</span>
@@ -259,10 +289,17 @@ export default class ExchangeHeader extends React.Component {
                                                 : ""
                                         }}
                                     >
+                                        <AssetImage
+                                            name={baseSymbol}
+                                            style={styles.assetImage}
+                                        />
                                         <AssetName
                                             name={baseSymbol}
                                             replace={true}
                                             noTip
+                                            onRenderedName={name => {
+                                                this._baseName = name;
+                                            }}
                                         />
                                     </span>
                                 </div>
@@ -363,10 +400,18 @@ export default class ExchangeHeader extends React.Component {
                                         )}
                                         ready={marketReady}
                                         decimals={0}
-                                        volume={true}
-                                        price={volume24h}
+                                        volume={{
+                                            base: {
+                                                volume: volumeBase,
+                                                asset: baseAsset
+                                            },
+                                            quote: {
+                                                volume: volumeQuote,
+                                                asset: quoteAsset
+                                            },
+                                            swap: this.state.volumeShowQuote
+                                        }}
                                         className="hide-order-2 clickable"
-                                        base={volume24hAsset}
                                         market={marketID}
                                         content="exchange.volume_24"
                                     />
@@ -448,6 +493,33 @@ export default class ExchangeHeader extends React.Component {
                                     "walkthrough.personalize"
                                 )}
                             >
+                                {!this.props.tinyScreen ? (
+                                    <li
+                                        className="stressed-stat input clickable column-hide-xs"
+                                        style={{padding: "16px 16px 16px 0px"}}
+                                        onClick={this.props.onToggleQuickChartType.bind(
+                                            this
+                                        )}
+                                    >
+                                        <AntIcon
+                                            type={
+                                                this.props.chartType ===
+                                                "price_chart"
+                                                    ? "area-chart"
+                                                    : "sliders"
+                                            }
+                                            style={{paddingRight: 5}}
+                                        />
+                                        <Translate
+                                            content={
+                                                this.props.chartType ===
+                                                "price_chart"
+                                                    ? "exchange.market_depth"
+                                                    : "exchange.price_history"
+                                            }
+                                        />
+                                    </li>
+                                ) : null}
                                 <li
                                     className="stressed-stat input clickable"
                                     style={{padding: "16px 16px 16px 0px"}}
