@@ -17,7 +17,7 @@ export function getWalletName() {
  * @returns {string}
  */
 export function getWalletURL() {
-    return "https://wallet.cryptrade.io";
+    return "https://dex.cryptrade.io";
 }
 
 /**
