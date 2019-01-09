@@ -519,7 +519,7 @@ class AccountOverview extends React.Component {
                                                     : () => {}
                                             }
                                         >
-                                            <Translate content="account.hide_hidden" />
+                                            <Translate content="cryptrade.account.show_active" />
                                         </div>
                                         {hiddenBalancesList.size ? (
                                             <div
@@ -540,7 +540,7 @@ class AccountOverview extends React.Component {
                                                         : () => {}
                                                 }
                                             >
-                                                <Translate content="account.show_hidden" />
+                                                <Translate content="cryptrade.account.show_hidden" />
                                             </div>
                                         ) : null}
                                         <div
@@ -557,7 +557,7 @@ class AccountOverview extends React.Component {
                                                     : () => {}
                                             }
                                         >
-                                            <Translate content="account.show_visual" />
+                                            <Translate content="cryptrade.account.show_visual" />
                                         </div>
                                     </div>
                                 </div>
