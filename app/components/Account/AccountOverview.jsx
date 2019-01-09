@@ -19,6 +19,7 @@ import AccountTreemap from "./AccountTreemap";
 import AssetWrapper from "../Utility/AssetWrapper";
 import AccountPortfolioList from "./AccountPortfolioList";
 import {Input, Icon, Switch} from "bitshares-ui-style-guide";
+import asset_utils from "../../lib/common/asset_utils";
 
 class AccountOverview extends React.Component {
     constructor(props) {
@@ -265,9 +266,14 @@ class AccountOverview extends React.Component {
 
         if (account.toJS && account.has("call_orders"))
             call_orders = account.get("call_orders").toJS();
-        let includedPortfolioList, hiddenPortfolioList;
+        let includedPortfolioList,
+            activePortfolioList,
+            inactivePortfolioList,
+            hiddenPortfolioList;
         let account_balances = account.get("balances");
         let includedBalancesList = Immutable.List(),
+            activeBalancesList = Immutable.List(),
+            inactiveBalancesList = Immutable.List(),
             hiddenBalancesList = Immutable.List();
         call_orders.forEach(callID => {
             let position = ChainStore.getObject(callID);
@@ -319,15 +325,17 @@ class AccountOverview extends React.Component {
             account_balances.forEach((a, asset_type) => {
                 const asset = ChainStore.getAsset(asset_type);
 
-                let assetName = "";
+                let assetName = asset ? asset.get("symbol").toLowerCase() : "";
+                let {isBitAsset} = utils.replaceName(asset);
+                let isCryptradeIssued = asset_utils.isCryptradeIssuedAsset(
+                    asset
+                );
                 let filter = "";
 
                 if (this.state.filterValue) {
                     filter = this.state.filterValue
                         ? String(this.state.filterValue).toLowerCase()
                         : "";
-                    assetName = asset.get("symbol").toLowerCase();
-                    let {isBitAsset} = utils.replaceName(asset);
                     if (isBitAsset) {
                         assetName = "bit" + assetName;
                     }
@@ -340,6 +348,15 @@ class AccountOverview extends React.Component {
                     hiddenBalancesList = hiddenBalancesList.push(a);
                 } else if (assetName.includes(filter)) {
                     includedBalancesList = includedBalancesList.push(a);
+                    if (
+                        asset_type === "1.3.0" ||
+                        isBitAsset ||
+                        isCryptradeIssued
+                    ) {
+                        activeBalancesList = activeBalancesList.push(a);
+                    } else {
+                        inactiveBalancesList = inactiveBalancesList.push(a);
+                    }
                 }
             });
         }
@@ -348,10 +365,20 @@ class AccountOverview extends React.Component {
             <TotalBalanceValue noTip balances={hiddenBalancesList} hide_asset />
         );
 
-        let portfolioActiveAssetsBalance = (
+        let portfolioIncludedAssetsBalance = (
             <TotalBalanceValue
                 noTip
                 balances={includedBalancesList}
+                hide_asset
+            />
+        );
+        let portfolioActiveAssetsBalance = (
+            <TotalBalanceValue noTip balances={activeBalancesList} hide_asset />
+        );
+        let portfolioInactiveAssetsBalance = (
+            <TotalBalanceValue
+                noTip
+                balances={inactiveBalancesList}
                 hide_asset
             />
         );
@@ -397,7 +424,7 @@ class AccountOverview extends React.Component {
             />
         );
 
-        const includedPortfolioBalance = (
+        const activePortfolioBalance = (
             <tr key="portfolio" className="total-value">
                 <td colSpan="2" style={{textAlign: "left"}}>
                     {totalValueText}
@@ -406,6 +433,20 @@ class AccountOverview extends React.Component {
                 <td className="column-hide-small" />
                 <td style={{textAlign: "right"}}>
                     {portfolioActiveAssetsBalance}
+                </td>
+                <td colSpan="9" />
+            </tr>
+        );
+
+        const inactivePortfolioBalance = (
+            <tr key="portfolio" className="total-value">
+                <td colSpan="2" style={{textAlign: "left"}}>
+                    {totalValueText}
+                </td>
+                <td className="column-hide-small" />
+                <td className="column-hide-small" />
+                <td style={{textAlign: "right"}}>
+                    {portfolioInactiveAssetsBalance}
                 </td>
                 <td colSpan="9" />
             </tr>
@@ -425,9 +466,9 @@ class AccountOverview extends React.Component {
             </tr>
         );
 
-        includedPortfolioList = (
+        activePortfolioList = (
             <AccountPortfolioList
-                balanceList={includedBalancesList}
+                balanceList={activeBalancesList}
                 optionalAssets={
                     !this.state.filterValue ? this.state.alwaysShowAssets : null
                 }
@@ -443,7 +484,30 @@ class AccountOverview extends React.Component {
                 isMyAccount={this.props.isMyAccount}
                 balances={this.props.balances}
                 header={this.getHeader()}
-                extraRow={includedPortfolioBalance}
+                extraRow={activePortfolioBalance}
+                showAdvancedFeatures={showAdvancedFeatures}
+            />
+        );
+
+        inactivePortfolioList = (
+            <AccountPortfolioList
+                balanceList={inactiveBalancesList}
+                optionalAssets={
+                    !this.state.filterValue ? this.state.alwaysShowAssets : null
+                }
+                visible={true}
+                preferredUnit={preferredUnit}
+                coreAsset={this.props.core_asset}
+                coreSymbol={this.props.core_asset.get("symbol")}
+                hiddenAssets={hiddenAssets}
+                orders={orders}
+                account={this.props.account}
+                sortKey={this.state.sortKey}
+                sortDirection={this.state.sortDirection}
+                isMyAccount={this.props.isMyAccount}
+                balances={this.props.balances}
+                header={this.getHeader()}
+                extraRow={inactivePortfolioBalance}
                 showAdvancedFeatures={showAdvancedFeatures}
             />
         );
@@ -487,7 +551,7 @@ class AccountOverview extends React.Component {
                         >
                             <Tab
                                 title="account.portfolio"
-                                subText={portfolioActiveAssetsBalance}
+                                subText={portfolioIncludedAssetsBalance}
                             >
                                 <div className="header-selector">
                                     <div className="filter inline-block">
@@ -521,6 +585,28 @@ class AccountOverview extends React.Component {
                                         >
                                             <Translate content="cryptrade.account.show_active" />
                                         </div>
+                                        {inactiveBalancesList.size ? (
+                                            <div
+                                                className={cnames(
+                                                    "inline-block",
+                                                    {
+                                                        inactive:
+                                                            shownAssets !=
+                                                            "inactive"
+                                                    }
+                                                )}
+                                                onClick={
+                                                    shownAssets != "inactive"
+                                                        ? this._changeShownAssets.bind(
+                                                              this,
+                                                              "inactive"
+                                                          )
+                                                        : () => {}
+                                                }
+                                            >
+                                                <Translate content="cryptrade.account.show_inactive" />
+                                            </div>
+                                        ) : null}
                                         {hiddenBalancesList.size ? (
                                             <div
                                                 className={cnames(
@@ -566,8 +652,10 @@ class AccountOverview extends React.Component {
                                     shownAssets === "hidden" &&
                                     hiddenBalancesList.size ? (
                                         hiddenPortfolioList
+                                    ) : shownAssets === "inactive" ? (
+                                        inactivePortfolioList
                                     ) : (
-                                        includedPortfolioList
+                                        activePortfolioList
                                     )
                                 ) : (
                                     <AccountTreemap
