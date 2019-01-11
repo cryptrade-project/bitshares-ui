@@ -630,11 +630,6 @@ class AccountDepositWithdraw extends React.Component {
         ];
         const currentServiceName = serviceNames[activeService];
         const currentServiceDown = servicesDown.get(currentServiceName);
-        console.log(
-            "Active Gateway Service",
-            currentServiceName,
-            activeService
-        );
 
         return (
             <div
