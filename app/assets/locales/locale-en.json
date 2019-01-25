@@ -2254,7 +2254,11 @@
     },
     "cryptrade": {
         "account": {
-            "intro_text_title": "Welcome to Cryptrade"
+            "intro_text_title": "Welcome to Cryptrade",
+            "show_active": "Active",
+            "show_inactive": "Inactive",
+            "show_hidden": "Hidden",
+            "show_visual": "Visual"
         },
         "dashboard": {
             "all_markets": "All Markets"

@@ -30,6 +30,7 @@ import ReserveAssetModal from "../Modal/ReserveAssetModal";
 import PaginatedList from "../Utility/PaginatedList";
 import MarketUtils from "common/market_utils";
 import {Tooltip, Icon as AntIcon} from "bitshares-ui-style-guide";
+import AssetImage from "../Utility/AssetImage";
 
 class AccountPortfolioList extends React.Component {
     constructor() {
@@ -584,6 +585,14 @@ class AccountPortfolioList extends React.Component {
             balances.push(
                 <tr key={asset.get("symbol")} style={{maxWidth: "100rem"}}>
                     <td style={{textAlign: "left"}}>
+                        <AssetImage
+                            name={asset.get("symbol")}
+                            style={{
+                                maxWidth: 30,
+                                margin: "3px 10px 3px 0"
+                            }}
+                            className="column-hide-small"
+                        />
                         <LinkToAssetById asset={asset.get("id")} />
                     </td>
                     <td style={{textAlign: "right"}}>

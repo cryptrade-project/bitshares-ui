@@ -17,7 +17,7 @@ export function getWalletName() {
  * @returns {string}
  */
 export function getWalletURL() {
-    return "https://wallet.cryptrade.io";
+    return "https://dex.cryptrade.io";
 }
 
 /**
@@ -27,7 +27,7 @@ export function getWalletURL() {
  */
 export function getFaucet() {
     return {
-        url: "https://faucet.bitshares.eu/onboarding", // 2017-12-infrastructure worker proposal
+        url: "https://api.cryptrade.io", // 2017-12-infrastructure worker proposal
         show: true,
         editable: false
     };
