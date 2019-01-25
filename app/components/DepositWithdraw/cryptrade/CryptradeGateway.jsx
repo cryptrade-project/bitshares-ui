@@ -236,7 +236,7 @@ class CryptradeGateway extends React.Component {
                                         coin.supportsMemos === true
                                     }
                                     gate_fee={parseFloat(coin.gateFee || 0)}
-                                    min_amount={coin.minAmount}
+                                    min_deposit={coin.minAmount}
                                     asset_precision={coin.precision}
                                     action={this.state.action}
                                     is_available={coin.isAvailable}
