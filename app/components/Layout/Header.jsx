@@ -224,6 +224,15 @@ class Header extends React.Component {
         this._closeDropdown();
     }
 
+    _onClickOut(url, e) {
+        e.preventDefault();
+
+        const win = window.open(url, "_blank");
+        win.focus();
+
+        this._closeDropdown();
+    }
+
     _closeAccountsListDropdown() {
         if (this.state.accountsListDropdownActive) {
             this.setState({
@@ -1275,6 +1284,7 @@ class Header extends React.Component {
                                 active={active}
                                 passwordLogin={passwordLogin}
                                 onNavigate={this._onNavigate.bind(this)}
+                                onClickOut={this._onClickOut.bind(this)}
                                 isMyAccount={isMyAccount}
                                 contacts={this.props.contacts}
                                 showAccountLinks={showAccountLinks}

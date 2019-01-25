@@ -94,7 +94,7 @@ export const xbtsxAPIs = {
 };
 
 export const cryptradeAPIs = {
-    BASE: "https://api-dev.cryptrade.io/api/v1",
+    BASE: "https://api.cryptrade.io/api/v1",
     COINS_LIST: "/coins",
     ACTIVE_WALLETS: "/wallets",
     MARKETS: "/markets",

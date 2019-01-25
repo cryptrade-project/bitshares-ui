@@ -3,7 +3,10 @@ import {connect} from "alt-react";
 import LazyImage from "./LazyImage";
 import CryptradeStore from "../../stores/CryptradeStore";
 import PropTypes from "prop-types";
-import {getCryptradeStaticURL} from "../../branding";
+import {
+    getCryptradeAssetNamespace,
+    getCryptradeStaticURL
+} from "../../branding";
 
 class AssetImage extends React.Component {
     static propTypes = {
@@ -35,7 +38,12 @@ class AssetImage extends React.Component {
         if (name) {
             const imgSplit = name.split(".");
             symbol = imgSplit.length === 2 ? imgSplit[1] : imgSplit[0];
-            img = `${getCryptradeStaticURL()}/asset-symbols/${symbol.toLowerCase()}.png`;
+            if (
+                imgSplit.length !== 2 ||
+                name.toUpperCase().indexOf(getCryptradeAssetNamespace()) === 0
+            ) {
+                img = `${getCryptradeStaticURL()}/asset-symbols/${symbol.toLowerCase()}.png`;
+            }
         }
 
         return img;

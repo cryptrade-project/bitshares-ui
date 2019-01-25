@@ -393,8 +393,6 @@ class Footer extends React.Component {
 
         this._ensureConnectivity();
 
-        console.log("asdasd");
-
         return (
             <div>
                 {!!routerTransitioner &&

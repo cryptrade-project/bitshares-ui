@@ -339,7 +339,10 @@ export default class DropDownMenu extends React.Component {
                     className={cnames({
                         active: active.indexOf("/news") !== -1
                     })}
-                    onClick={this.props.onNavigate.bind(this, "/news")}
+                    onClick={this.props.onClickOut.bind(
+                        this,
+                        "https://medium.com/@cryptrade_io"
+                    )}
                 >
                     <div className="table-cell">
                         <Icon size="2x" name="news" title="icons.news" />
