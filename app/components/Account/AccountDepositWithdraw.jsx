@@ -21,7 +21,6 @@ import GatewayStore from "stores/GatewayStore";
 import AccountImage from "../Account/AccountImage";
 import BitsparkGateway from "../DepositWithdraw/bitspark/BitsparkGateway";
 import GdexGateway from "../DepositWithdraw/gdex/GdexGateway";
-import WinexGateway from "../DepositWithdraw/winex/WinexGateway";
 import XbtsxGateway from "../DepositWithdraw/xbtsx/XbtsxGateway";
 import CryptradeGateway from "../DepositWithdraw/cryptrade/CryptradeGateway";
 import PropTypes from "prop-types";
@@ -535,18 +534,6 @@ class AccountDepositWithdraw extends React.Component {
             )
         });
 
-        /***
-         * Winex Dsiabled due to WebFetch issues on failure
-         */
-        // serList.push({
-        //     name: "Winex",
-        //     template: (
-        //         <div>
-        //             <WinexGateway account={account} provider="Winex" />
-        //         </div>
-        //     )
-        // });
-
         return serList;
     }
 
@@ -618,15 +605,14 @@ class AccountDepositWithdraw extends React.Component {
 
         const serviceNames = [
             "Cryptrade",
+            "GDEX",
             "OPEN",
             "RUDEX",
             "SPARKDEX",
-            "XBTSX",
             "TRADE",
-            "CITADEL",
             "BITKAPITAL",
-            "GDEX",
-            "Winex"
+            "XBTSX",
+            "CITADEL"
         ];
         const currentServiceName = serviceNames[activeService];
         const currentServiceDown = servicesDown.get(currentServiceName);
@@ -769,10 +755,6 @@ export default connect(
                 ),
                 citadelBackedCoins: GatewayStore.getState().backedCoins.get(
                     "CITADEL",
-                    []
-                ),
-                winexBackedCoins: GatewayStore.getState().backedCoins.get(
-                    "WIN",
                     []
                 ),
                 xbtsxBackedCoins: GatewayStore.getState().backedCoins.get(
