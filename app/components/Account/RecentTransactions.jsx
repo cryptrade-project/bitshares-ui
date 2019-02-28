@@ -432,7 +432,6 @@ class RecentTransactions extends React.Component {
                 <td />
                 <td />
                 <td />
-                <td />
             </tr>
         );
 
