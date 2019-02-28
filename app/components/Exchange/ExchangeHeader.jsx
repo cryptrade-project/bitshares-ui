@@ -507,18 +507,18 @@ export default class ExchangeHeader extends React.Component {
                                         <AntIcon
                                             type={
                                                 this.props.chartType ===
-                                                "price_chart"
-                                                    ? "area-chart"
-                                                    : "sliders"
+                                                "market_depth"
+                                                    ? "sliders"
+                                                    : "area-chart"
                                             }
                                             style={{paddingRight: 5}}
                                         />
                                         <Translate
                                             content={
                                                 this.props.chartType ===
-                                                "price_chart"
-                                                    ? "exchange.market_depth"
-                                                    : "exchange.price_history"
+                                                "market_depth"
+                                                    ? "exchange.price_history"
+                                                    : "exchange.market_depth"
                                             }
                                         />
                                     </li>
