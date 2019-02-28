@@ -353,7 +353,7 @@ class Exchange extends React.Component {
                 open_settlement: 2
             }),
             panelTabsActive: ws.get("panelTabsActive", {
-                1: "my_history",
+                1: "history",
                 2: "my_orders"
             })
         };
