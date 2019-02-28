@@ -508,7 +508,7 @@ export default class ExchangeHeader extends React.Component {
                                             type={
                                                 this.props.chartType ===
                                                 "market_depth"
-                                                    ? "sliders"
+                                                    ? "bar-chart"
                                                     : "area-chart"
                                             }
                                             style={{paddingRight: 5}}
