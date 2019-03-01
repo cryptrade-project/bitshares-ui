@@ -1,6 +1,6 @@
 {
     "name": "cryptrade-ui",
-    "version": "1.0.190125",
+    "version": "1.0.190301",
     "description": "Advanced wallet interface for the BitShares financial blockchain.",
     "homepage": "https://github.com/bitshares/bitshares-ui",
     "author": "BitShares UI Worker <ui-dev@bitshares.org>",
