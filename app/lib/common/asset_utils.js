@@ -74,7 +74,7 @@ export default class AssetUtils {
             }
         });
 
-        if (isBitAsset) {
+        if (isBitAsset && flagBooleans["global_settle"]) {
             flags += assetConstants.permission_flags["global_settle"];
         }
 
@@ -83,7 +83,10 @@ export default class AssetUtils {
 
     static parseDescription(description) {
         let parsed;
-
+        description = sanitize(description, {
+            whiteList: [], // empty, means filter out all tags
+            stripIgnoreTag: true // filter out all HTML not in the whilelist
+        });
         try {
             parsed = JSON.parse(description);
         } catch (error) {}
