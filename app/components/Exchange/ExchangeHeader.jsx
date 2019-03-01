@@ -248,6 +248,9 @@ export default class ExchangeHeader extends React.Component {
                                         onClick={this.props.showPriceAlertModal}
                                         type={"bell"}
                                         className={`exchange--price-alert--show-modal ${PriceAlertBellClassName}`}
+                                        data-intro={translator.translate(
+                                            "walkthrough.price_alerts"
+                                        )}
                                     />
                                     <span
                                         onClick={this.marketPicker.bind(
@@ -504,18 +507,18 @@ export default class ExchangeHeader extends React.Component {
                                         <AntIcon
                                             type={
                                                 this.props.chartType ===
-                                                "price_chart"
-                                                    ? "area-chart"
-                                                    : "sliders"
+                                                "market_depth"
+                                                    ? "bar-chart"
+                                                    : "area-chart"
                                             }
                                             style={{paddingRight: 5}}
                                         />
                                         <Translate
                                             content={
                                                 this.props.chartType ===
-                                                "price_chart"
-                                                    ? "exchange.market_depth"
-                                                    : "exchange.price_history"
+                                                "market_depth"
+                                                    ? "exchange.price_history"
+                                                    : "exchange.market_depth"
                                             }
                                         />
                                     </li>
@@ -532,7 +535,7 @@ export default class ExchangeHeader extends React.Component {
                                         style={{paddingRight: 5}}
                                     />
                                     <Translate
-                                        className="column-hide-xs"
+                                        className="hide-order-2"
                                         content="exchange.settings.header.title"
                                     />
                                 </li>

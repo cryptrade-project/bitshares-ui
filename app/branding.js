@@ -152,7 +152,6 @@ export function getMyMarketsQuotes() {
             "RUDEX.TT"
         ],
         sparkTokens: ["ZEPH", "SPARKDEX.ETH", "SPARKDEX.BTC"],
-        winTokens: ["WIN.ETC", "WIN.ETH", "WIN.HSR"],
         xbtsxTokens: [
             "XBTSX.STH",
             "XBTSX.POST",
@@ -301,7 +300,6 @@ export function getAssetNamespaces() {
     return [
         "OPEN.",
         "RUDEX.",
-        "WIN.",
         "BRIDGE.",
         "GDEX.",
         "XBTSX.",
